@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="shape">
+      <UniqueIdentifier>{bd7a318d-ad96-4fc7-a2bc-b4be7cdcaf8e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ShapeData.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeSerializer.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="ISerializerInner.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializers.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ShapeSerializer.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializers.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
