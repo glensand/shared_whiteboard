@@ -98,6 +98,7 @@ void WhiteBoardCV::OnMouseHandleInner(int event, int x, int y)
 
 	Draw();
 	Show();
+	Send();
 }
 
 void WhiteBoardCV::OnButtonInner(ShapeType hash)

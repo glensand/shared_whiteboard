@@ -28,11 +28,13 @@ public:
 	
 	void			Draw() const;
 	void			Send() const;
+	void			Recieve();
 	void			Update();
 
 protected:
 	void			SetRender(Render&& render);
 	void			SetShape(ShapeType hash);
+	void			SetShape(const Shape& hash);
 
 	template<typename T>
 	void			AddShape();
@@ -47,6 +49,9 @@ protected:
 	State			m_state{ State::WAIT };
 	RenderCtx		m_ctx;
 private:
+
+	bool			m_isServer{ false };
+	
 	Render			m_render;
 	ShapeType		m_curShapeHash;
 

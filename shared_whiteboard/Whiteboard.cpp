@@ -1,4 +1,5 @@
 #include "Whiteboard.h"
+#include "ShapeSerializer.h"
 
 namespace wboard
 {
@@ -11,6 +12,18 @@ void WhiteBoardBase::Draw() const
 
 void WhiteBoardBase::Send() const
 {
+	if (m_state != State::FINISH) return;
+
+//	if(m_isServer)
+
+	auto& shape = m_shapesBuffer.at(m_curShapeHash);
+	
+	auto pack = ShapeSerializer::Instance().Serialize(shape);
+}
+
+void WhiteBoardBase::Recieve()
+{
+	
 }
 
 void WhiteBoardBase::Update()
@@ -51,4 +64,9 @@ void WhiteBoardBase::SetShape(ShapeType hash)
 	m_curShapeHash = hash;
 }
 
+void WhiteBoardBase::SetShape(const Shape& hash)
+{
+	//m_curShapeHash = hash;
+}
+	
 }
