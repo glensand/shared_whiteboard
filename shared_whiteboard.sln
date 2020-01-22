@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.181
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shared_whiteboard", "shared_whiteboard\shared_whiteboard.vcxproj", "{2EB32DF9-E1A2-4E92-BB2A-B7B506C6E2ED}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "whiteboard", "shared_whiteboard\shared_whiteboard.vcxproj", "{2EB32DF9-E1A2-4E92-BB2A-B7B506C6E2ED}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "App", "App\App.vcxproj", "{F0AAF2BE-123B-44B6-8573-5DFD1FDF14A8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFMLServerClient", "SFMLServerClient\SFMLServerClient.vcxproj", "{1D15B8D4-A97F-40AE-81C4-36DD280D7D3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{F0AAF2BE-123B-44B6-8573-5DFD1FDF14A8}.Release|x64.Build.0 = Release|x64
 		{F0AAF2BE-123B-44B6-8573-5DFD1FDF14A8}.Release|x86.ActiveCfg = Release|Win32
 		{F0AAF2BE-123B-44B6-8573-5DFD1FDF14A8}.Release|x86.Build.0 = Release|Win32
+		{1D15B8D4-A97F-40AE-81C4-36DD280D7D3C}.Debug|x64.ActiveCfg = Debug|x64
+		{1D15B8D4-A97F-40AE-81C4-36DD280D7D3C}.Debug|x64.Build.0 = Debug|x64
+		{1D15B8D4-A97F-40AE-81C4-36DD280D7D3C}.Debug|x86.ActiveCfg = Debug|Win32
+		{1D15B8D4-A97F-40AE-81C4-36DD280D7D3C}.Debug|x86.Build.0 = Debug|Win32
+		{1D15B8D4-A97F-40AE-81C4-36DD280D7D3C}.Release|x64.ActiveCfg = Release|x64
+		{1D15B8D4-A97F-40AE-81C4-36DD280D7D3C}.Release|x64.Build.0 = Release|x64
+		{1D15B8D4-A97F-40AE-81C4-36DD280D7D3C}.Release|x86.ActiveCfg = Release|Win32
+		{1D15B8D4-A97F-40AE-81C4-36DD280D7D3C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
