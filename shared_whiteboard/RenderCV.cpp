@@ -1,5 +1,4 @@
 ﻿#include "RenderCV.h"
-#include "utils.h"
 
 #include <opencv2/imgproc/imgproc_c.h>
 
@@ -50,15 +49,16 @@ struct RenderCirce final : RenderCVBase
 	void RenderImpl(const Shape& shape, const ContextCV& ctx) const override
 	{
 		const auto circle = reinterpret_cast<const Circle*>(shape.get());
-		cv::circle(ctx.Board, Point2cvPoint(circle->Center), circle->Rad, 
-			CvColor(circle->ShapeColor), circle->Rad);
+		
+		//cv::circle(ctx.Board, Point2cvPoint(circle->Center), circle->Rad, 
+		//	CvColor(circle->ShapeColor), circle->Rad);
 	}
 };
 	
 RenderCV::RenderCV()
 {
-	Initialize(ComputeHash<RenderCirce>(), std::make_unique<RenderCirce>());
-	Initialize(ComputeHash<RenderLine>(), std::make_unique<RenderLine>());
+	Initialize(ShapeType::Circle, std::make_unique<RenderCirce>());
+	Initialize(ShapeType::Line, std::make_unique<RenderLine>());
 }
 	
 }

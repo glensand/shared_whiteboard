@@ -1,7 +1,5 @@
 ﻿#include "ShapeSerializer.h"
 
-#include "utils.h"
-
 namespace wboard
 {
 
@@ -14,7 +12,7 @@ Package ShapeSerializer::Serialize(const Shape& shape) const
 
 Shape ShapeSerializer::Deserialize(const Package& pcg) const
 {
-	const auto hash = *reinterpret_cast<size_t*>(pcg.RowData[0]);
+	const auto hash = *reinterpret_cast<ShapeType*>(pcg.RowData[0]);
 
 	const auto& deserializer = m_serializers.at(hash);
 	
@@ -28,16 +26,14 @@ ShapeSerializer& ShapeSerializer::Instance()
 	return instance;
 }
 
-void ShapeSerializer::AddSerializer(size_t typeHash, SerializerInner&& serializer)
+void ShapeSerializer::AddSerializer(ShapeType typeHash, SerializerInner&& serializer)
 {
 	m_serializers[typeHash] = std::move(serializer);
 }
 
 const SerializerInner& ShapeSerializer::GetSerializer(const Shape& shape) const
 {
-
-	const auto hashCode = ComputeHash(shape);
-	const auto procIt = m_serializers.find(hashCode);
+	const auto procIt = m_serializers.find(shape->Type);
 
 	// подумаем
 	if (procIt == m_serializers.end());

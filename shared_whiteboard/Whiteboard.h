@@ -5,6 +5,13 @@
 #include "ShapeData.h"
 #include "RenderBase.h"
 
+enum class State
+{
+	WAIT,
+	DRAWING,
+	FINISH
+};
+
 namespace wboard
 {
 	
@@ -14,24 +21,45 @@ public:
 	WhiteBoardBase() = default;
 	virtual ~WhiteBoardBase() = default;
 
+	
 	virtual void	Open() = 0;
 	virtual void	Close() = 0;
-
-	void			Draw(const Shape& shape);
-	void			Send(const Shape& shape);
+	virtual void	Show() = 0;
 	
+	void			Draw() const;
+	void			Send() const;
+	void			Update();
+
 protected:
-	void			SetRender(Render &&render);
-	virtual const	RenderCtx& GetRenderCtx() const = 0;
+	void			SetRender(Render&& render);
+	void			SetShape(ShapeType hash);
 
-	void			OnCurShapeChanged(size_t shapeHash);
+	template<typename T>
+	void			AddShape();
 	
+	void			ChangeState();
+	
+	const RenderCtx&	GetRenderCtx() const;
+
+	int				m_x{ 0 };
+	int				m_y{ 0 };
+
+	State			m_state{ State::WAIT };
+	RenderCtx		m_ctx;
 private:
-	size_t			m_curShapeHash;
 	Render			m_render;
-	
-	std::unordered_map<size_t, Shape>	m_shapesBuffer;
+	ShapeType		m_curShapeHash;
+
+	std::vector<Shape>					m_shapes;
+	std::unordered_map<ShapeType, Shape>	m_shapesBuffer;
 };
-	
+
+template <typename T>
+void WhiteBoardBase::AddShape()
+{
+	auto ptr = std::make_shared<T>();
+
+	m_shapesBuffer.emplace(ptr->Type, ptr);
+}
 }
 

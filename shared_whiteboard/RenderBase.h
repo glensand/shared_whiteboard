@@ -39,12 +39,9 @@ public:
 	void			Render(const RenderCtx& ctx);
 	
 protected:
-	virtual void	Show() = 0;
-	
-	virtual void	RenderImpl(const RenderCtx& ctx) const = 0;
 
-	void			Initialize(size_t hash, RenderInner&& render);
-	std::unordered_map<size_t, RenderInner>	m_renders;
+	void			Initialize(ShapeType hash, RenderInner&& render);
+	std::unordered_map<ShapeType, RenderInner>	m_renders;
 };
 
 using Render = std::unique_ptr<RenderBase>;

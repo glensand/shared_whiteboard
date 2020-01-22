@@ -24,65 +24,61 @@
 namespace wboard
 {
 
+enum class ShapeType
+{
+	Line,
+	Circle,
+	Rect,
+	Text
+};
+	
 struct Color
 {
-	uint16_t	B;
-	uint16_t	G;
-	uint16_t	R;
+	uint16_t	B{ 0 };
+	uint16_t	G{ 0 };
+	uint16_t	R{ 0 };
+};
+
+struct Point
+{
+	int		X{ 0 };
+	int		Y{ 0 };
 };
 	
 struct ShapeBase
 {
-	// Так я надеюсь никто до этого не доебется
-	// сейчас мне так удобнее всего сделать определение типа
-	virtual ~ShapeBase() = default;
-	
-	Color ShapeColor;
-};
-	
-struct Point : ShapeBase
-{
-	virtual ~Point() = default;
-	
-	size_t	X;
-	size_t	Y;
+	ShapeType	Type;
+	Color		ShapeColor;
+
+	Point		P1;
+	Point		P2;
+
+	int			Thickness { 2 };
 };
 
 	// Добавил чисто для стиралки
 struct Circle : ShapeBase
 {
-	virtual  ~Circle() = default;
-
-	Point	Center;
-	size_t	Rad;
+	Circle()
+	{
+		Type = ShapeType::Circle;
+	}
 };
 	
 struct Line : ShapeBase
 {
-	virtual ~Line() = default;
-	
-	Point	P1;
-	Point	P2;
-
-	size_t	Thickness;
+	Line()
+	{
+		Type = ShapeType::Line;
+	}
 };
 
 struct Rect : ShapeBase
 {
-	virtual ~Rect() = default;
-	
-	Point	P1;
-	Point	P2;
-
-	size_t	BorderThickness;
-};
-
-struct Text : ShapeBase
-{
-	virtual ~Text() = default;
-
-	Point		P;
-	std::string Data;
+	Rect()
+	{
+		Type = ShapeType::Rect;
+	}
 };
 
 // Это пакет, просто сырые данные которые надо скопировать
@@ -98,6 +94,6 @@ struct Package final
 	uint8_t	RowData[MAX_PCG_SIZE];
 };
 
-using Shape = std::unique_ptr<ShapeBase>;
+using Shape = std::shared_ptr<ShapeBase>;
 	
 }

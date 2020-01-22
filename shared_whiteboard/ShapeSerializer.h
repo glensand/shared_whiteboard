@@ -2,7 +2,6 @@
 
 #include <unordered_map>
 #include "ISerializerInner.h"
-#include "utils.h"
 
 // Это будет синглтон для фабрики
 // все конструкторы я укажу явно
@@ -26,7 +25,7 @@ public:
 	Shape						Deserialize(const Package& pcg) const;
 	
 	static ShapeSerializer&		Instance();
-	void						AddSerializer(size_t typeHash, SerializerInner&& serializer);
+	void						AddSerializer(ShapeType typeHash, SerializerInner&& serializer);
 
 	
 private:
@@ -35,24 +34,21 @@ private:
 	ShapeSerializer() = default;
 
 	// Я обьясню наверное как это работает, а может и нет))
-	std::unordered_map<size_t, SerializerInner>	m_serializers;
+	std::unordered_map<ShapeType, SerializerInner>	m_serializers;
 };
 
-template <typename T, typename S>
+template <typename S>
 struct SerializerRegister
 {
-	SerializerRegister()
+	SerializerRegister(ShapeType type)
 	{
-		SerializerInner processor(reinterpret_cast<ISerializerInner*>(new T));
+		SerializerInner processor(reinterpret_cast<ISerializerInner*>(new S));
 
-		// это конечно странно, но мне нрав
-		const auto hashCode = ComputeHash<T>();
-
-		ShapeSerializer::Instance().AddSerializer(hashCode, std::move(processor));
+		ShapeSerializer::Instance().AddSerializer(type, std::move(processor));
 	}
 };
 
-#define REGISTER_SERIALIZER(shapeType, serializerName) static SerializerRegister<shapeType, serializerName> \
-	registernewRegister##serializerName
+#define REGISTER_SERIALIZER(shapeType, serializerName) static SerializerRegister<serializerName> \
+	registernewRegister##serializerName(shapeType)
 	
 }

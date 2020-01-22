@@ -25,7 +25,7 @@ private:
 template <typename T>
 Shape SerializerBase::DeserializeBase(const Package& pcg)
 {
-	Shape shape = std::make_unique<Line>();
+	Shape shape = std::make_shared<T>();
 	auto rowShape = reinterpret_cast<uint8_t*>(shape.get());
 	const auto* pcgData = reinterpret_cast<const uint8_t*>(pcg.RowData);
 	const auto* begin = pcgData + sizeof(size_t);

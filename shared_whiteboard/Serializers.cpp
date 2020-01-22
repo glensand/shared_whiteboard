@@ -19,13 +19,6 @@ public:
 	Shape	Deserialize(const Package& pcg) const override;
 };
 
-class TextSerializer final : public SerializerBase
-{
-public:
-	Package Serialize(const Shape& shape) const override;
-	Shape	Deserialize(const Package& pcg) const override;
-};
-
 class CircleSerializer final : public SerializerBase
 {
 public:
@@ -33,10 +26,9 @@ public:
 	Shape	Deserialize(const Package& pcg) const override;
 };
 	
-REGISTER_SERIALIZER(Line, LineSerializer);
-REGISTER_SERIALIZER(Rect, RectSerializer);
-REGISTER_SERIALIZER(Circle, CircleSerializer);
-REGISTER_SERIALIZER(Text, TextSerializer);
+REGISTER_SERIALIZER(ShapeType::Line, LineSerializer);
+REGISTER_SERIALIZER(ShapeType::Rect, RectSerializer);
+REGISTER_SERIALIZER(ShapeType::Circle, CircleSerializer);
 
 size_t SerializerBase::GetHashCode(const Shape& shape)
 {
@@ -74,16 +66,6 @@ Package RectSerializer::Serialize(const Shape& shape) const
 Shape RectSerializer::Deserialize(const Package& pcg) const
 {
 	return DeserializeBase<Rect>(pcg);
-}
-
-Package TextSerializer::Serialize(const Shape& shape) const
-{
-	return SerializeBase<Text>(shape);
-}
-
-Shape TextSerializer::Deserialize(const Package& pcg) const
-{
-	return DeserializeBase<Text>(pcg);
 }
 	
 }

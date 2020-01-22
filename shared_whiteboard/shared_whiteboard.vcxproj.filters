@@ -36,9 +36,6 @@
     <ClInclude Include="RenderBase.h">
       <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>utils</Filter>
-    </ClInclude>
     <ClInclude Include="WhiteBoardCV.h">
       <Filter>whiteboard</Filter>
     </ClInclude>
@@ -62,5 +59,6 @@
     <ClCompile Include="WhiteBoardCV.cpp">
       <Filter>whiteboard</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
 </Project>
