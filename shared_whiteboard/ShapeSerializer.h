@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include "ISerializerInner.h"
+#include "utils.h"
 
 // Это будет синглтон для фабрики
 // все конструкторы я укажу явно
@@ -45,9 +46,7 @@ struct SerializerRegister
 		SerializerInner processor(reinterpret_cast<ISerializerInner*>(new T));
 
 		// это конечно странно, но мне нрав
-		T t;
-		const auto& typeInfo = typeid(&t);
-		const auto hashCode = typeInfo.hash_code();
+		const auto hashCode = ComputeHash<T>();
 
 		ShapeSerializer::Instance().AddSerializer(hashCode, std::move(processor));
 	}

@@ -51,32 +51,4 @@ Package SerializerBase::SerializeBase(const Shape& shape)
 	return pcg;
 }
 	
-class LineSerializer final : public SerializerBase
-{
-public:
-	Package Serialize(const Shape& shape) const override;
-	Shape	Deserialize(const Package& pcg) const override;
-};
-
-class RectSerializer final : public SerializerBase
-{
-public:
-	Package Serialize(const Shape& shape) const override;
-	Shape	Deserialize(const Package& pcg) const override;
-};
-
-class TextSerializer final : public SerializerBase
-{
-public:
-	Package Serialize(const Shape& shape) const override;
-	Shape	Deserialize(const Package& pcg) const override;
-};
-
-class CircleSerializer final : public SerializerBase
-{
-public:
-	Package Serialize(const Shape& shape) const override;
-	Shape	Deserialize(const Package& pcg) const override;
-};
-	
 }

@@ -4,6 +4,15 @@
     <Filter Include="shape">
       <UniqueIdentifier>{bd7a318d-ad96-4fc7-a2bc-b4be7cdcaf8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="whiteboard">
+      <UniqueIdentifier>{de66b58a-52fa-47ee-9bfa-e3f753ccb880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render">
+      <UniqueIdentifier>{7912715f-7051-4206-b52c-82f3a80ce283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{621c1ee9-7879-4083-9279-b73f0c2d96aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShapeData.h">
@@ -18,6 +27,18 @@
     <ClInclude Include="Serializers.h">
       <Filter>shape</Filter>
     </ClInclude>
+    <ClInclude Include="Whiteboard.h">
+      <Filter>whiteboard</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderCV.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderBase.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ShapeSerializer.cpp">
@@ -25,6 +46,15 @@
     </ClCompile>
     <ClCompile Include="Serializers.cpp">
       <Filter>shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Whiteboard.cpp">
+      <Filter>whiteboard</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCV.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderBase.cpp">
+      <Filter>render</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

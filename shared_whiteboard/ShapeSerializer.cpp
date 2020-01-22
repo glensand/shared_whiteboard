@@ -1,6 +1,6 @@
 ﻿#include "ShapeSerializer.h"
 
-#include <typeinfo>
+#include "utils.h"
 
 namespace wboard
 {
@@ -35,9 +35,8 @@ void ShapeSerializer::AddSerializer(size_t typeHash, SerializerInner&& serialize
 
 const SerializerInner& ShapeSerializer::GetSerializer(const Shape& shape) const
 {
-	const auto& typeInfo = typeid(shape.get());
-	const auto hashCode = typeInfo.hash_code();
 
+	const auto hashCode = ComputeHash(shape);
 	const auto procIt = m_serializers.find(hashCode);
 
 	// подумаем
