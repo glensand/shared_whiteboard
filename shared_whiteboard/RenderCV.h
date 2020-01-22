@@ -12,7 +12,6 @@ struct ContextCV : RenderCtxBase
 {
 	virtual ~ContextCV() = default;
 
-	std::string		BoardName;
 	cv::Mat			Board;
 };
 	

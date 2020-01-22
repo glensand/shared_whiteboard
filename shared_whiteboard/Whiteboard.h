@@ -1,39 +1,36 @@
 #pragma once
-#include <string>
-#include <opencv2/core/mat.hpp>
 
-#include "RenderCV.h"
+#include <unordered_map>
+
+#include "ShapeData.h"
+#include "RenderBase.h"
 
 namespace wboard
 {
 	
-class WhiteBoard final
+class WhiteBoardBase
 {
 public:
+	WhiteBoardBase() = default;
+	virtual ~WhiteBoardBase() = default;
 
-	WhiteBoard(const std::string& appName);
-	~WhiteBoard();
+	virtual void	Open() = 0;
+	virtual void	Close() = 0;
 
-	void			Open(const std::string& path);
+	void			Draw(const Shape& shape);
+	void			Send(const Shape& shape);
+	
+protected:
+	void			SetRender(Render &&render);
+	virtual const	RenderCtx& GetRenderCtx() const = 0;
 
+	void			OnCurShapeChanged(size_t shapeHash);
+	
 private:
-	void			Update();
-
-	static void		OnMouseHandle(int event, int x, int y, int, void* instance);
-	void			OnMouseHandleInner(int x, int y);
-
-	static void		OnBlurParamsChanged(int x, void* instance);
-
-	std::string		m_appName;
-
-	int				m_blurRadius;
-	int				m_blurStrength;
-
-	int				m_posX;
-	int				m_posY;
-
-	cv::Mat			m_whiteboard;
-	Conte			m_blurred;
+	size_t			m_curShapeHash;
+	Render			m_render;
+	
+	std::unordered_map<size_t, Shape>	m_shapesBuffer;
 };
 	
 }

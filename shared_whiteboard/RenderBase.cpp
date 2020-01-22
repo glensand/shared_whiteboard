@@ -6,13 +6,15 @@
 namespace wboard
 {
 
-void RenderBase::Render(const Shape& shape)
+void RenderBase::Render(const RenderCtx& ctx)
 {
-	const auto hash = ComputeHash(shape);
+	const auto hash = ComputeHash(ctx->Shape);
 
 	if (m_renders.count(hash) == 0) return;
 
-	m_renders[hash]->Render(shape, m_ctx);
+	m_renders[hash]->Render(ctx);
+
+	Show();
 }
 
 void RenderBase::Initialize(size_t hash, RenderInner&& render)

@@ -11,18 +11,20 @@ namespace wboard
 {
 
 struct RenderCtxBase
-{
+{	
 	virtual ~RenderCtxBase() = default;
+
+	Shape	Shape;
 };
 	
-using RenderCtx = std::unique_ptr< RenderCtxBase>;
+using RenderCtx = std::unique_ptr<RenderCtxBase>;
 	
 struct IRenderInner
 {
 	virtual ~IRenderInner() = default;
 
 	// Сюда надо бы рендер контекст передавать
-	virtual void	Render(const Shape& shape, const RenderCtx& ctx) const = 0;
+	virtual void	Render(const RenderCtx& ctx) const = 0;
 };
 	
 using RenderInner = std::unique_ptr<IRenderInner>;
@@ -34,17 +36,17 @@ public:
 	RenderBase() = default;
 	virtual~RenderBase() = default;
 
-	void			Render(const Shape& shape);
+	void			Render(const RenderCtx& ctx);
 	
 protected:
-	void			Initialize(size_t hash, RenderInner &&render);
+	virtual void	Show() = 0;
 	
-	virtual void	RenderImpl(const Shape& shape) const = 0;
+	virtual void	RenderImpl(const RenderCtx& ctx) const = 0;
 
-	RenderCtx		m_ctx;
-
+	void			Initialize(size_t hash, RenderInner&& render);
 	std::unordered_map<size_t, RenderInner>	m_renders;
 };
 
+using Render = std::unique_ptr<RenderBase>;
 }
 

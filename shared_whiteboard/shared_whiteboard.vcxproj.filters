@@ -39,6 +39,9 @@
     <ClInclude Include="utils.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="WhiteBoardCV.h">
+      <Filter>whiteboard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ShapeSerializer.cpp">
@@ -55,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="RenderBase.cpp">
       <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="WhiteBoardCV.cpp">
+      <Filter>whiteboard</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -12,14 +12,13 @@ namespace wboard
 
 struct RenderCVBase : IRenderInner
 {
-	void Render(const Shape& shape, const RenderCtx& ctx) const final
+	void Render(const RenderCtx& ctx) const final
 	{
-		const auto line = dynamic_cast<const Line*>(shape.get());
 		const auto cvCtx = dynamic_cast<const ContextCV*>(ctx.get());
 
-		if (line == nullptr || cvCtx == nullptr) return;
+		if (cvCtx == nullptr) return;
 
-		RenderImpl(shape, *cvCtx);
+		RenderImpl(ctx->Shape, *cvCtx);
 	}
 
 	static cv::Point Point2cvPoint(const Point& p)
