@@ -2,31 +2,39 @@
 
 #include "ISerializerInner.h"
 
-// Здесь жахнем сериализаторов...
-
 namespace wboard
 {
 
-	// Здесь надо натыкать деструкторов, но мне лень
-
 class SerializerBase : public ISerializerInner
 {
+public:
+	Package				Serialize(const Shape& shape) const final;
+	Shape				Deserialize(const Package& pcg) const final;
+
+	void				AddNext(Serializer&& ser) final;
+	const Serializer&	GetNext() final;
+	
 protected:
-	template<typename T>
-	static Shape	DeserializeBase(const Package& pcg);
+	virtual	bool		CanBeProcessed(ShapeType type) const = 0;
+
+	virtual Package		SerializeImpl(const Shape& shape) const = 0;
+	virtual Shape		DeserializeImpl(const Package& pcg) const = 0;
 
 	template<typename T>
-	static Package	SerializeBase(const Shape& shape);
+	static Shape		DeserializeBase(const Package& pcg);
+
+	template<typename T>
+	static Package		SerializeBase(const Shape& shape);
 
 private:
-	static size_t	GetHashCode(const Shape& shape);
+	Serializer			m_next;
 };
 
 template <typename T>
 Shape SerializerBase::DeserializeBase(const Package& pcg)
 {
 	Shape shape = std::make_shared<T>();
-	auto rowShape = reinterpret_cast<uint8_t*>(shape.get());
+	const auto rowShape = reinterpret_cast<uint8_t*>(shape.get());
 	const auto* pcgData = reinterpret_cast<const uint8_t*>(pcg.RowData);
 	const auto* begin = pcgData + sizeof(size_t);
 
@@ -44,7 +52,7 @@ Package SerializerBase::SerializeBase(const Shape& shape)
 	const auto* begin = reinterpret_cast<const uint8_t*>(shape.get());
 
 	const auto data = reinterpret_cast<size_t*>(pcg.RowData);
-	*data = GetHashCode(shape);
+	//*data = GetHashCode(shape);
 
 	std::copy(begin, begin + pcg.Emount, data + 1);
 

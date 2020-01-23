@@ -15,10 +15,7 @@ void WhiteBoardBase::Send() const
 	if (m_state != State::FINISH) return;
 
 //	if(m_isServer)
-
-	auto& shape = m_shapesBuffer.at(m_curShapeHash);
-	
-	auto pack = ShapeSerializer::Instance().Serialize(shape);
+	auto pack = ShapeSerializer::Instance().Serialize(m_ctx->Shape);
 }
 
 void WhiteBoardBase::Recieve()
@@ -28,7 +25,7 @@ void WhiteBoardBase::Recieve()
 
 void WhiteBoardBase::Update()
 {
-	auto& shape = m_shapesBuffer[m_curShapeHash];
+	auto& shape = m_ctx->Shape;
 	
 	if(m_state == State::WAIT)
 	{
@@ -38,8 +35,6 @@ void WhiteBoardBase::Update()
 
 	if(m_state == State::FINISH || m_state == State::DRAWING)
 		shape->P2 = { m_x, m_y };
-	
-	m_ctx->Shape = shape;
 }
 
 void WhiteBoardBase::ChangeState()
@@ -59,14 +54,11 @@ void WhiteBoardBase::SetRender(Render&& render)
 	m_render = std::move(render);
 }
 
-void WhiteBoardBase::SetShape(ShapeType hash)
+void WhiteBoardBase::SetShape(ShapeType type)
 {
-	m_curShapeHash = hash;
-}
+	if(m_shapesBuffer.count(type) == 0) return;
 
-void WhiteBoardBase::SetShape(const Shape& hash)
-{
-	//m_curShapeHash = hash;
+	m_ctx->Shape = m_shapesBuffer[type];
 }
 	
 }

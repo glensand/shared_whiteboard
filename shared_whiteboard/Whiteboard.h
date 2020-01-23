@@ -33,11 +33,10 @@ public:
 
 protected:
 	void			SetRender(Render&& render);
-	void			SetShape(ShapeType hash);
-	void			SetShape(const Shape& hash);
+	void			SetShape(ShapeType type);
 
 	template<typename T>
-	void			AddShape();
+	void			AddShape(ShapeType type);
 	
 	void			ChangeState();
 	
@@ -50,19 +49,18 @@ protected:
 	RenderCtx		m_ctx;
 private:
 
-	bool			m_isServer{ false };
+	//bool			m_isServer{ false };
 	
 	Render			m_render;
-	ShapeType		m_curShapeHash;
 
-	std::vector<Shape>					m_shapes;
+	std::vector<Shape>						m_shapes;
 	std::unordered_map<ShapeType, Shape>	m_shapesBuffer;
 };
 
 template <typename T>
-void WhiteBoardBase::AddShape()
+void WhiteBoardBase::AddShape(ShapeType type)
 {
-	auto ptr = std::make_shared<T>();
+	auto ptr = std::make_shared<T>(type);
 
 	m_shapesBuffer.emplace(ptr->Type, ptr);
 }

@@ -7,6 +7,9 @@
 namespace wboard
 {
 
+class ISerializerInner;
+using Serializer = std::unique_ptr<ISerializerInner>;
+
 class ISerializerInner
 {
 public:
@@ -16,9 +19,10 @@ public:
 
 	virtual Package	Serialize(const Shape& shape) const = 0;
 	virtual Shape	Deserialize(const Package& pcg) const = 0;
+	
+	virtual void					AddNext(Serializer&& ser) = 0;
+	virtual const Serializer&		GetNext() = 0;
 };
-
-using SerializerInner = std::unique_ptr<ISerializerInner>;
 	
 }
 

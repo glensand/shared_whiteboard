@@ -7,7 +7,6 @@
 
 namespace wboard
 {
-// Это рендереры, щас напихаю сюда побольше!
 
 struct RenderCVBase : IRenderInner
 {
@@ -37,10 +36,8 @@ struct RenderLine final : RenderCVBase
 {
 	void RenderImpl(const Shape& shape, const ContextCV& ctx) const override
 	{
-		const auto line = reinterpret_cast<const Line*>(shape.get());
-
-		cv::line(ctx.Board, Point2cvPoint(line->P1), Point2cvPoint(line->P2),
-			CvColor(line->ShapeColor), line->Thickness, CV_AA);
+		cv::line(ctx.Board, Point2cvPoint(shape->P1), Point2cvPoint(shape->P2),
+			CvColor(shape->ShapeColor), shape->Thickness, CV_AA);
 	}
 };
 
@@ -48,10 +45,13 @@ struct RenderCirce final : RenderCVBase
 {
 	void RenderImpl(const Shape& shape, const ContextCV& ctx) const override
 	{
-		const auto circle = reinterpret_cast<const Circle*>(shape.get());
+		const auto distX = (shape->P1.X - shape->P2.X);
+		const auto distY = (shape->P1.Y - shape->P2.Y);
 		
-		//cv::circle(ctx.Board, Point2cvPoint(circle->Center), circle->Rad, 
-		//	CvColor(circle->ShapeColor), circle->Rad);
+		const auto rad = std::sqrt(distX * distX + distY * distY);
+
+		cv::circle(ctx.Board, Point2cvPoint(shape->P1), rad, 
+			CvColor(shape->ShapeColor), shape->Thickness);
 	}
 };
 	

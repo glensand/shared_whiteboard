@@ -25,30 +25,30 @@ public:
 	Shape						Deserialize(const Package& pcg) const;
 	
 	static ShapeSerializer&		Instance();
-	void						AddSerializer(ShapeType typeHash, SerializerInner&& serializer);
-
+	void						AddSerializer(Serializer&& serializer);
 	
 private:
-	const SerializerInner&		GetSerializer(const Shape& shape) const;
+	const Serializer&		GetSerializer(const Shape& shape) const;
 	
 	ShapeSerializer() = default;
 
-	// Я обьясню наверное как это работает, а может и нет))
-	std::unordered_map<ShapeType, SerializerInner>	m_serializers;
+						// I suppose chain of responsibility, it is most appropriate method
+						// to abstract serialization now
+	Serializer		m_serializerChain;
 };
 
 template <typename S>
 struct SerializerRegister
 {
-	SerializerRegister(ShapeType type)
+	SerializerRegister()
 	{
-		SerializerInner processor(reinterpret_cast<ISerializerInner*>(new S));
+		Serializer processor(reinterpret_cast<ISerializerInner*>(new S));
 
-		ShapeSerializer::Instance().AddSerializer(type, std::move(processor));
+		ShapeSerializer::Instance().AddSerializer(std::move(processor));
 	}
 };
 
-#define REGISTER_SERIALIZER(shapeType, serializerName) static SerializerRegister<serializerName> \
-	registernewRegister##serializerName(shapeType)
+#define REGISTER_SERIALIZER(serializerName) static SerializerRegister<serializerName> \
+	registernewRegister##serializerName
 	
 }

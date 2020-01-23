@@ -40,7 +40,7 @@ public:
 	
 protected:
 
-	void			Initialize(ShapeType hash, RenderInner&& render);
+	void			Initialize(ShapeType type, RenderInner&& render);
 	std::unordered_map<ShapeType, RenderInner>	m_renders;
 };
 

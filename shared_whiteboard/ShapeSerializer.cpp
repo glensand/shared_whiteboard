@@ -5,18 +5,12 @@ namespace wboard
 
 Package ShapeSerializer::Serialize(const Shape& shape) const
 {
-	const auto& ser = GetSerializer(shape);
-
-	return ser->Serialize(shape);
+	return m_serializerChain->Serialize(shape);
 }
 
 Shape ShapeSerializer::Deserialize(const Package& pcg) const
 {
-	const auto hash = *reinterpret_cast<ShapeType*>(pcg.RowData[0]);
-
-	const auto& deserializer = m_serializers.at(hash);
-	
-	return deserializer->Deserialize(pcg);
+	return m_serializerChain->Deserialize(pcg);
 }
 
 ShapeSerializer& ShapeSerializer::Instance()
@@ -26,20 +20,12 @@ ShapeSerializer& ShapeSerializer::Instance()
 	return instance;
 }
 
-void ShapeSerializer::AddSerializer(ShapeType typeHash, SerializerInner&& serializer)
+void ShapeSerializer::AddSerializer(Serializer&& serializer)
 {
-	m_serializers[typeHash] = std::move(serializer);
-}
+	auto next = std::move(m_serializerChain);
+	m_serializerChain = std::move(serializer);
 
-const SerializerInner& ShapeSerializer::GetSerializer(const Shape& shape) const
-{
-	const auto procIt = m_serializers.find(shape->Type);
-
-	// подумаем
-	if (procIt == m_serializers.end());
-		//return nullptr;
-
-	return procIt->second;
+	m_serializerChain->AddNext(std::move(next));
 }
 	
 }

@@ -18,11 +18,10 @@ public:
 	void				Show() override;
 	
 	void				OnMouseHandleInner(int event, int x, int y);
-	void				OnButtonInner(ShapeType hash);
-	
 	static void			OnMouseHandle(int event, int x, int y, int, void* instance);
-	static void			OnButtonCircle(int state, void* instance);
-	static void			OnButtonLine(int state, void* instance);
+
+	void				ListenKeyboardInput();
+	void				OnKeyboardHandle(int k);
 	
 private:
 	std::string		m_appName { "whiteboard" };

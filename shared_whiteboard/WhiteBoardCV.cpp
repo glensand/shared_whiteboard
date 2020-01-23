@@ -3,12 +3,7 @@
 #include "ShapeData.h"
 
 #include <opencv2/core/mat.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <iostream>
 #include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-
-#include <iostream>
 
 namespace
 {
@@ -33,13 +28,12 @@ WhiteBoardCV::WhiteBoardCV()
 	
 	cv::setMouseCallback(m_appName, OnMouseHandle, this);
 	//cv::createTrackbar("Thickness: ", m_appName, &m_thickness, 100, OnParamsChanged, this);
-	
-	SetShape(ShapeType::Line);
 
 	SetRender(std::make_unique<RenderCV>());
-	
-	AddShape<Line>();
-	AddShape<Circle>();
+
+	AddShape<SimpleShape>(ShapeType::Circle);
+	AddShape<SimpleShape>(ShapeType::Line);
+	SetShape(ShapeType::Circle);
 	
 	//cv::createButton("Circle", OnButtonCircle, this, cv::QT_PUSH_BUTTON, false);
 	//cv::createButton("Line", OnButtonCircle, this, cv::QT_PUSH_BUTTON, false);
@@ -49,7 +43,7 @@ WhiteBoardCV::WhiteBoardCV()
 void WhiteBoardCV::Open()
 {
 	Show();
-	cv::waitKey(0);
+	ListenKeyboardInput();
 }
 
 void WhiteBoardCV::Close()
@@ -68,6 +62,28 @@ void WhiteBoardCV::OnMouseHandle(int event, int x, int y, int, void* instance)
 	reinterpret_cast<WhiteBoardCV*>(instance)->OnMouseHandleInner(event, x, y);
 }
 
+void WhiteBoardCV::ListenKeyboardInput()
+{
+	for(;;)
+	{
+		const auto pressedKey = cv::waitKey(0);
+		OnKeyboardHandle(pressedKey);
+	}
+}
+
+void WhiteBoardCV::OnKeyboardHandle(int k)
+{
+	const char key = static_cast<char>(k);
+	switch (key)
+	{
+	case 'c': SetShape(ShapeType::Circle); break;
+	case 'l': SetShape(ShapeType::Line); break;
+	case 'r': SetShape(ShapeType::Rect); break;
+
+	default: SetShape(ShapeType::Line);
+	}
+}
+
 void WhiteBoardCV::OnMouseHandleInner(int event, int x, int y)
 {
 	if (m_state == State::FINISH)
@@ -82,7 +98,7 @@ void WhiteBoardCV::OnMouseHandleInner(int event, int x, int y)
 		ChangeState();
 
 	// вот это очень плохо и так лучше не делать
-	// и вообще лучше выносить в мето
+	// и вообще лучше выносить в метод
 	// юзать что-то типо темплейт метода..
 	
 	auto cvCtx = static_cast<ContextCV*>(m_ctx.get());
@@ -99,22 +115,6 @@ void WhiteBoardCV::OnMouseHandleInner(int event, int x, int y)
 	Draw();
 	Show();
 	Send();
-}
-
-void WhiteBoardCV::OnButtonInner(ShapeType hash)
-{
-}
-
-void WhiteBoardCV::OnButtonCircle(int state, void* instance)
-{
-	if (instance == nullptr) return;
-	reinterpret_cast<WhiteBoardCV*>(instance)->OnButtonInner(ShapeType::Circle);
-}
-
-void WhiteBoardCV::OnButtonLine(int state, void* instance)
-{
-	if (instance == nullptr) return;
-	reinterpret_cast<WhiteBoardCV*>(instance)->OnButtonInner(ShapeType::Line);
 }
 	
 }

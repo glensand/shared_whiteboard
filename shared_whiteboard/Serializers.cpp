@@ -4,68 +4,62 @@
 
 namespace wboard
 {
-
-class LineSerializer final : public SerializerBase
+	
+Package SerializerBase::Serialize(const Shape& shape) const
 {
-public:
-	Package Serialize(const Shape& shape) const override;
-	Shape	Deserialize(const Package& pcg) const override;
+	const auto type = shape->Type;
+	if (CanBeProcessed(type)) return SerializeImpl(shape);
+	
+	return m_next->Serialize(shape);
+}
+
+Shape SerializerBase::Deserialize(const Package& pcg) const
+{
+	const auto begin = reinterpret_cast<const size_t*>(pcg.RowData);
+	const auto type = *reinterpret_cast<const ShapeType*>(begin + 1);
+	
+	if (CanBeProcessed(type)) return DeserializeImpl(pcg);
+
+	return m_next->Deserialize(pcg);
+}
+
+void SerializerBase::AddNext(Serializer&& ser)
+{
+	m_next = std::move(ser);
+}
+
+const Serializer& SerializerBase::GetNext()
+{
+	return m_next;
+}
+
+class SimpleShapeSerializer final : public SerializerBase
+{
+	
+protected:
+	Package SerializeImpl(const Shape& shape) const override;
+	Shape	DeserializeImpl(const Package& pcg) const override;
+
+	bool	CanBeProcessed(ShapeType type) const override;
 };
 
-class RectSerializer final : public SerializerBase
+Package SimpleShapeSerializer::SerializeImpl(const Shape& shape) const
 {
-public:
-	Package Serialize(const Shape& shape) const override;
-	Shape	Deserialize(const Package& pcg) const override;
-};
-
-class CircleSerializer final : public SerializerBase
-{
-public:
-	Package Serialize(const Shape& shape) const override;
-	Shape	Deserialize(const Package& pcg) const override;
-};
-	
-REGISTER_SERIALIZER(ShapeType::Line, LineSerializer);
-REGISTER_SERIALIZER(ShapeType::Rect, RectSerializer);
-REGISTER_SERIALIZER(ShapeType::Circle, CircleSerializer);
-
-size_t SerializerBase::GetHashCode(const Shape& shape)
-{
-	const auto& typeInfo = typeid(shape.get());
-	const auto hashCode = typeInfo.hash_code();
-	
-	return hashCode;
+	return SerializeBase<SimpleShape>(shape);
 }
 
-Package LineSerializer::Serialize(const Shape& shape) const
+Shape SimpleShapeSerializer::DeserializeImpl(const Package& pcg) const
 {
-	return SerializeBase<Line>(shape);
+	return DeserializeBase<SimpleShape>(pcg);
 }
 
-Shape LineSerializer::Deserialize(const Package& pcg) const
+bool SimpleShapeSerializer::CanBeProcessed(ShapeType type) const
 {
-	return DeserializeBase<Line>(pcg);
+	return type == ShapeType::Circle
+		|| type == ShapeType::Rect
+		|| type == ShapeType::Line;
 }
 
-Package CircleSerializer::Serialize(const Shape& shape) const
-{
-	return SerializeBase<Circle>(shape);
-}
+REGISTER_SERIALIZER(SimpleShapeSerializer);
 
-Shape CircleSerializer::Deserialize(const Package& pcg) const
-{
-	return DeserializeBase<Circle>(pcg);
-}
-
-Package RectSerializer::Serialize(const Shape& shape) const
-{
-	return SerializeBase<Rect>(shape);
-}
-
-Shape RectSerializer::Deserialize(const Package& pcg) const
-{
-	return DeserializeBase<Rect>(pcg);
-}
-	
 }
