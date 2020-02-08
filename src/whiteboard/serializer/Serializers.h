@@ -1,4 +1,13 @@
-﻿#pragma once
+﻿//------------------------------------------------------------------------------
+// SerializerBase.h
+// Common shape serializers, implements chain
+// Copyright (c) 2020 glensand
+// All rights reserved.
+//
+// Date: 02.08.2020
+// Author: Gleb Bezborodov
+//------------------------------------------------------------------------------
+#pragma once
 
 #include "ISerializerInner.h"
 
@@ -30,6 +39,7 @@ private:
 	Serializer			m_next;
 };
 
+//TODO:: real serialization should be added
 template <typename T>
 Shape SerializerBase::DeserializeBase(const Package& pcg)
 {
@@ -52,7 +62,6 @@ Package SerializerBase::SerializeBase(const Shape& shape)
 	const auto* begin = reinterpret_cast<const uint8_t*>(shape.get());
 
 	const auto data = reinterpret_cast<size_t*>(pcg.RowData);
-	//*data = GetHashCode(shape);
 
 	std::copy(begin, begin + pcg.Emount, data + 1);
 

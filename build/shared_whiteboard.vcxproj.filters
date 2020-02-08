@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="shape">
+      <UniqueIdentifier>{bd7a318d-ad96-4fc7-a2bc-b4be7cdcaf8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="whiteboard">
+      <UniqueIdentifier>{de66b58a-52fa-47ee-9bfa-e3f753ccb880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render">
+      <UniqueIdentifier>{7912715f-7051-4206-b52c-82f3a80ce283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{621c1ee9-7879-4083-9279-b73f0c2d96aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="clientserver">
+      <UniqueIdentifier>{0b247e98-8967-496a-94a8-621adeac4709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serializer">
+      <UniqueIdentifier>{9193a1dd-20a2-4be7-a778-674a602f48fc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\whiteboard\render\RenderBase.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\whiteboard\render\RenderCV.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\whiteboard\serializer\Serializers.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\whiteboard\serializer\ShapeSerializer.cpp">
+      <Filter>serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\whiteboard\Whiteboard.cpp">
+      <Filter>whiteboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\whiteboard\WhiteBoardCV.cpp">
+      <Filter>whiteboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\whiteboard\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\whiteboard\render\RenderBase.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\whiteboard\render\RenderCV.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\whiteboard\render\ShapeData.h">
+      <Filter>shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\whiteboard\serializer\ISerializerInner.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\whiteboard\serializer\Serializers.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\whiteboard\serializer\ShapeSerializer.h">
+      <Filter>serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\whiteboard\Whiteboard.h">
+      <Filter>whiteboard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\whiteboard\WhiteBoardCV.h">
+      <Filter>whiteboard</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -4,7 +4,11 @@
 
 namespace wboard
 {
-	
+class SimpleShapeSerializer;
+REGISTER_SERIALIZER(SimpleShapeSerializer);
+//------------------------------------------------------------------------------
+// SerializerBase
+//------------------------------------------------------------------------------
 Package SerializerBase::Serialize(const Shape& shape) const
 {
 	const auto type = shape->Type;
@@ -12,7 +16,7 @@ Package SerializerBase::Serialize(const Shape& shape) const
 	
 	return m_next->Serialize(shape);
 }
-
+//------------------------------------------------------------------------------
 Shape SerializerBase::Deserialize(const Package& pcg) const
 {
 	const auto begin = reinterpret_cast<const size_t*>(pcg.RowData);
@@ -22,17 +26,19 @@ Shape SerializerBase::Deserialize(const Package& pcg) const
 
 	return m_next->Deserialize(pcg);
 }
-
+//------------------------------------------------------------------------------
 void SerializerBase::AddNext(Serializer&& ser)
 {
 	m_next = std::move(ser);
 }
-
+//------------------------------------------------------------------------------
 const Serializer& SerializerBase::GetNext()
 {
 	return m_next;
 }
-
+//------------------------------------------------------------------------------
+// SimpleShapeSerializer implements ISerializerInner
+//------------------------------------------------------------------------------
 class SimpleShapeSerializer final : public SerializerBase
 {
 	
@@ -42,24 +48,22 @@ protected:
 
 	bool	CanBeProcessed(ShapeType type) const override;
 };
-
+//------------------------------------------------------------------------------
 Package SimpleShapeSerializer::SerializeImpl(const Shape& shape) const
 {
 	return SerializeBase<SimpleShape>(shape);
 }
-
+//------------------------------------------------------------------------------
 Shape SimpleShapeSerializer::DeserializeImpl(const Package& pcg) const
 {
 	return DeserializeBase<SimpleShape>(pcg);
 }
-
+//------------------------------------------------------------------------------
 bool SimpleShapeSerializer::CanBeProcessed(ShapeType type) const
 {
 	return type == ShapeType::Circle
 		|| type == ShapeType::Rect
 		|| type == ShapeType::Line;
 }
-
-REGISTER_SERIALIZER(SimpleShapeSerializer);
-
+//------------------------------------------------------------------------------
 }

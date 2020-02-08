@@ -2,7 +2,7 @@
 
 int main()
 {
-	wboard::WhiteBoardCV board;
+	wboard::WhiteBoardCv board;
 
 	board.Open();
 	board.Close();

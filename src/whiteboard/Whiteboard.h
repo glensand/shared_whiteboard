@@ -1,9 +1,17 @@
+//------------------------------------------------------------------------------
+// WhiteBoardBase.h
+// 
+// Copyright (c) 2020 glensand
+// All rights reserved.
+//
+// Date: 02.08.2020
+// Author: Gleb Bezborodov
+//------------------------------------------------------------------------------
 #pragma once
 
 #include <unordered_map>
 
-#include "ShapeData.h"
-#include "RenderBase.h"
+#include "render/RenderBase.h"
 
 enum class State
 {
@@ -22,35 +30,31 @@ public:
 	virtual ~WhiteBoardBase() = default;
 
 	
-	virtual void	Open() = 0;
-	virtual void	Close() = 0;
-	virtual void	Show() = 0;
+	virtual void		Open() = 0;
+	virtual void		Close() = 0;
+	virtual void		Show() = 0;
 	
-	void			Draw() const;
-	void			Send() const;
-	void			Recieve();
-	void			Update();
+	void				Draw() const;
+	void				Update();
 
 protected:
-	void			SetRender(Render&& render);
-	void			SetShape(ShapeType type);
-
-	template<typename T>
-	void			AddShape(ShapeType type);
+	void				SetRender(Render&& render);
+	void				SetShape(ShapeType type);
 	
-	void			ChangeState();
+	void				ChangeState();
 	
 	const RenderCtx&	GetRenderCtx() const;
+
+	template<typename T>
+	void AddShape(ShapeType type);
 
 	int				m_x{ 0 };
 	int				m_y{ 0 };
 
 	State			m_state{ State::WAIT };
 	RenderCtx		m_ctx;
-private:
 
-	//bool			m_isServer{ false };
-	
+private:
 	Render			m_render;
 
 	std::vector<Shape>						m_shapes;

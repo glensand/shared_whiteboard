@@ -1,4 +1,13 @@
-﻿#pragma once
+﻿//------------------------------------------------------------------------------
+// ShapeData.h
+//
+// Copyright (c) 2020 glensand
+// All rights reserved.
+//
+// Date: 02.08.2020
+// Author: Gleb Bezborodov
+//------------------------------------------------------------------------------
+#pragma once
 
 #include <cstdint>
 #include <memory>

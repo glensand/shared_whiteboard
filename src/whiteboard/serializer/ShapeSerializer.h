@@ -1,18 +1,23 @@
-﻿#pragma once
+﻿//------------------------------------------------------------------------------
+// ShapeSerializer.h
+//
+// Copyright (c) 2020 glensand
+// All rights reserved.
+//
+// Date: 02.08.2020
+// Author: Gleb Bezborodov
+//------------------------------------------------------------------------------
+#pragma once
 
 #include <unordered_map>
 #include "ISerializerInner.h"
 
-// Это будет синглтон для фабрики
-// все конструкторы я укажу явно
 namespace wboard
 {
 
 class ShapeSerializer final
 {
 public:
-
-	// Поудаляли то что не нужно и не должно быть использовано
 	ShapeSerializer(ShapeSerializer&&) = delete;
 	ShapeSerializer(ShapeSerializer&) = delete;
 
@@ -28,7 +33,7 @@ public:
 	void						AddSerializer(Serializer&& serializer);
 	
 private:
-	const Serializer&		GetSerializer(const Shape& shape) const;
+	//const Serializer&			GetSerializer(const Shape& shape) const;
 	
 	ShapeSerializer() = default;
 

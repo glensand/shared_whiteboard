@@ -7,7 +7,9 @@
 
 namespace wboard
 {
-
+//------------------------------------------------------------------------------
+// RenderCVBase
+//------------------------------------------------------------------------------
 struct RenderCVBase : IRenderInner
 {
 	void Render(const RenderCtx& ctx) const final
@@ -31,7 +33,9 @@ struct RenderCVBase : IRenderInner
 	
 	virtual void RenderImpl(const Shape& shape, const ContextCV& ctx) const = 0;
 };
-	
+//------------------------------------------------------------------------------
+// RenderLine
+//------------------------------------------------------------------------------
 struct RenderLine final : RenderCVBase
 {
 	void RenderImpl(const Shape& shape, const ContextCV& ctx) const override
@@ -40,7 +44,7 @@ struct RenderLine final : RenderCVBase
 			CvColor(shape->ShapeColor), shape->Thickness, CV_AA);
 	}
 };
-
+//------------------------------------------------------------------------------
 struct RenderCirce final : RenderCVBase
 {
 	void RenderImpl(const Shape& shape, const ContextCV& ctx) const override
@@ -54,11 +58,13 @@ struct RenderCirce final : RenderCVBase
 			CvColor(shape->ShapeColor), shape->Thickness);
 	}
 };
-	
+//------------------------------------------------------------------------------
+// RenderCV
+//------------------------------------------------------------------------------
 RenderCV::RenderCV()
 {
 	Initialize(ShapeType::Circle, std::make_unique<RenderCirce>());
 	Initialize(ShapeType::Line, std::make_unique<RenderLine>());
 }
-	
+//------------------------------------------------------------------------------	
 }
