@@ -10,7 +10,8 @@
 #pragma once
 
 #include <memory>
-#include "render/ShapeData.h"
+
+#include <whiteboard/render/ShapeData.h>
 
 namespace wboard
 {
@@ -25,11 +26,13 @@ public:
 	ISerializerInner() = default;
 	virtual ~ISerializerInner() = default;
 
-	virtual Package				Serialize(const Shape& shape) const = 0;
-	virtual Shape				Deserialize(const Package& pcg) const = 0;
+	virtual void				Serialize(std::ostream& stream, const Shape& shape) const = 0;
+	virtual Shape				Deserialize(std::istream& stream) const = 0;
 	
 	virtual void				AddNext(Serializer&& ser) = 0;
-	virtual const Serializer&	GetNext() = 0;
+	virtual const Serializer&	GetNext() const = 0;
+
+	virtual Shape				Deserialize(std::istream& stream, ShapeType type) const = 0;
 };
 	
 }

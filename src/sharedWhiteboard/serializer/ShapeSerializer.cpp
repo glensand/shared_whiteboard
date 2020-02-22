@@ -3,20 +3,19 @@
 namespace wboard
 {
 //------------------------------------------------------------------------------
-Package ShapeSerializer::Serialize(const Shape& shape) const
+void ShapeSerializer::Serialize(std::ostream& stream, const Shape& shape) const
 {
-	return m_serializerChain->Serialize(shape);
+	m_serializerChain->Serialize(stream, shape);
 }
 
-Shape ShapeSerializer::Deserialize(const Package& pcg) const
+Shape ShapeSerializer::Deserialize(std::istream& stream) const
 {
-	return m_serializerChain->Deserialize(pcg);
+	return m_serializerChain->Deserialize(stream);
 }
 //------------------------------------------------------------------------------
 ShapeSerializer& ShapeSerializer::Instance()
 {
 	static ShapeSerializer instance;
-
 	return instance;
 }
 //------------------------------------------------------------------------------
@@ -24,7 +23,6 @@ void ShapeSerializer::AddSerializer(Serializer&& serializer)
 {
 	auto next = std::move(m_serializerChain);
 	m_serializerChain = std::move(serializer);
-
 	m_serializerChain->AddNext(std::move(next));
 }
 //------------------------------------------------------------------------------

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="wb">
+      <UniqueIdentifier>{282c319b-7884-400b-810d-689bfabc5aa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serializer">
+      <UniqueIdentifier>{3a95fd86-187c-4086-9218-66f6a8f71603}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ISerializerInner.h">
+      <Filter>Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.h">
+      <Filter>Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\SharedWhiteboard.h">
+      <Filter>wb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSeializer.h">
+      <Filter>Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializerBase.h">
+      <Filter>Serializer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.cpp">
+      <Filter>Serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sharedWhiteboard\SharedWhiteboard.cpp">
+      <Filter>wb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSeializer.cpp">
+      <Filter>Serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializerBase.cpp">
+      <Filter>Serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sharedWhiteboard\main.cpp" />
+  </ItemGroup>
+</Project>

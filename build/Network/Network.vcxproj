@@ -19,25 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\whiteboard\main.cpp" />
-    <ClCompile Include="..\src\whiteboard\render\RenderBase.cpp" />
-    <ClCompile Include="..\src\whiteboard\render\RenderCV.cpp" />
-    <ClCompile Include="..\src\whiteboard\Whiteboard.cpp" />
-    <ClCompile Include="..\src\whiteboard\WhiteBoardCV.cpp" />
+    <ClInclude Include="..\..\src\network\BoostTcpClient.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\whiteboard\render\RenderBase.h" />
-    <ClInclude Include="..\src\whiteboard\render\RenderCV.h" />
-    <ClInclude Include="..\src\whiteboard\render\ShapeData.h" />
-    <ClInclude Include="..\src\whiteboard\Whiteboard.h" />
-    <ClInclude Include="..\src\whiteboard\WhiteBoardCV.h" />
+    <ClCompile Include="..\..\src\network\BoostTcpClient.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{2EB32DF9-E1A2-4E92-BB2A-B7B506C6E2ED}</ProjectGuid>
-    <RootNamespace>sharedwhiteboard</RootNamespace>
+    <ProjectGuid>{378B08FB-20BE-4925-ACAE-31AD270BBA24}</ProjectGuid>
+    <RootNamespace>Network</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>whiteboard</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -102,13 +93,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(OPENCV_DIR)/include;$(SolutionDir)/src/whiteboard</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)\x64\vc15\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(OPENCV_LIB);kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -117,20 +105,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\local\boost_1_69_0;$(OPENCV_DIR)/include;$(SolutionDir)/src/whiteboard;C:\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\local\boost_1_69_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)\x64\vc15\lib;D:\local\boost_1_69_0\lib64-msvc-14.1</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(OPENCV_LIBd);kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\local\boost_1_69_0\lib64-msvc-14.1</AdditionalLibraryDirectories>
     </Link>
-    <Lib>
-      <AdditionalDependencies>$(OPENCV_LIBd)</AdditionalDependencies>
-    </Lib>
-    <Lib>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)/x64/vc15/lib</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -140,15 +121,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(OPENCV_DIR)/include;$(SolutionDir)/src/whiteboard</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)\x64\vc15\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(OPENCV_LIB);kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -159,22 +137,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\local\boost_1_69_0;$(OPENCV_DIR)/include;$(SolutionDir)/src/whiteboard;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\local\boost_1_69_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)\x64\vc15\lib;D:\local\boost_1_69_0\lib64-msvc-14.1</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(OPENCV_LIBd);kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\local\boost_1_69_0\lib64-msvc-14.1</AdditionalLibraryDirectories>
     </Link>
-    <Lib>
-      <AdditionalDependencies>$(OPENCV_LIBd)</AdditionalDependencies>
-    </Lib>
-    <Lib>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)/x64/vc15/lib</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

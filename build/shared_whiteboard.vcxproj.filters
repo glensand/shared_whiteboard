@@ -16,9 +16,6 @@
     <Filter Include="clientserver">
       <UniqueIdentifier>{0b247e98-8967-496a-94a8-621adeac4709}</UniqueIdentifier>
     </Filter>
-    <Filter Include="serializer">
-      <UniqueIdentifier>{9193a1dd-20a2-4be7-a778-674a602f48fc}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\whiteboard\render\RenderBase.cpp">
@@ -26,12 +23,6 @@
     </ClCompile>
     <ClCompile Include="..\src\whiteboard\render\RenderCV.cpp">
       <Filter>render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\whiteboard\serializer\Serializers.cpp">
-      <Filter>serializer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\whiteboard\serializer\ShapeSerializer.cpp">
-      <Filter>serializer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\whiteboard\Whiteboard.cpp">
       <Filter>whiteboard</Filter>
@@ -50,15 +41,6 @@
     </ClInclude>
     <ClInclude Include="..\src\whiteboard\render\ShapeData.h">
       <Filter>shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\whiteboard\serializer\ISerializerInner.h">
-      <Filter>serializer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\whiteboard\serializer\Serializers.h">
-      <Filter>serializer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\whiteboard\serializer\ShapeSerializer.h">
-      <Filter>serializer</Filter>
     </ClInclude>
     <ClInclude Include="..\src\whiteboard\Whiteboard.h">
       <Filter>whiteboard</Filter>

@@ -53,15 +53,6 @@ struct SimpleShape
 	int			Thickness { 2 };
 };
 
-using Data = std::unique_ptr<uint8_t>;
-constexpr size_t MAX_PCG_SIZE{ 512 };
-	
-struct Package final
-{
-	size_t	Emount;
-	uint8_t	RowData[MAX_PCG_SIZE];
-};
-
 using Shape = std::shared_ptr<SimpleShape>;
 	
 }

@@ -26,15 +26,13 @@ public:
 	
 	~ShapeSerializer() = default;
 
-	Package						Serialize(const Shape& shape) const;
-	Shape						Deserialize(const Package& pcg) const;
+	void						Serialize(std::ostream& stream, const Shape& shape) const;
+	Shape						Deserialize(std::istream& stream) const;
 	
 	static ShapeSerializer&		Instance();
 	void						AddSerializer(Serializer&& serializer);
 	
 private:
-	//const Serializer&			GetSerializer(const Shape& shape) const;
-	
 	ShapeSerializer() = default;
 
 						// I suppose chain of responsibility, it is most appropriate method

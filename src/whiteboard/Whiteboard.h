@@ -10,6 +10,8 @@
 #pragma once
 
 #include <unordered_map>
+#include <functional>
+#include <boost/signals2.hpp>
 
 #include "render/RenderBase.h"
 
@@ -29,15 +31,16 @@ public:
 	WhiteBoardBase() = default;
 	virtual ~WhiteBoardBase() = default;
 
-	
 	virtual void		Open() = 0;
 	virtual void		Close() = 0;
-	virtual void		Show() = 0;
+
+	void				Draw(const Shape& shape) const;
+	void				RegisterOnDrawCallback(const std::function<void(const Shape& shape)>& callback);
 	
+protected:
 	void				Draw() const;
 	void				Update();
-
-protected:
+	
 	void				SetRender(Render&& render);
 	void				SetShape(ShapeType type);
 	
@@ -56,9 +59,9 @@ protected:
 
 private:
 	Render			m_render;
-
-	std::vector<Shape>						m_shapes;
-	std::unordered_map<ShapeType, Shape>	m_shapesBuffer;
+	
+	boost::signals2::signal<void(const Shape&)>		m_onDrawSignal;
+	std::unordered_map<ShapeType, Shape>			m_shapesBuffer;
 };
 
 template <typename T>
@@ -68,5 +71,8 @@ void WhiteBoardBase::AddShape(ShapeType type)
 
 	m_shapesBuffer.emplace(ptr->Type, ptr);
 }
+
+using WhiteBoard = std::unique_ptr<WhiteBoardBase>;
+
 }
 

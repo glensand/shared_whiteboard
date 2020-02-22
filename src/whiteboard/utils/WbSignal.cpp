@@ -1,4 +1,5 @@
 #include "Whiteboard.h"
+#include "serializer/ShapeSerializer.h"
 
 namespace wboard
 {
@@ -7,20 +8,6 @@ void WhiteBoardBase::Draw() const
 {
 	if (m_state == State::WAIT) return;
 	m_render->Render(GetRenderCtx());
-	
-	if(m_state == State::FINISH) 
-		m_onDrawSignal(GetRenderCtx()->Shape);
-}
-//------------------------------------------------------------------------------
-void WhiteBoardBase::Draw(const Shape& shape) const
-{
-	GetRenderCtx()->Shape = shape;
-	m_render->Render(GetRenderCtx());
-}
-//------------------------------------------------------------------------------
-void WhiteBoardBase::RegisterOnDrawCallback(const std::function<void(const Shape & shape)>& callback)
-{
-	m_onDrawSignal.connect(callback);
 }
 //------------------------------------------------------------------------------
 void WhiteBoardBase::Update()
@@ -36,6 +23,11 @@ void WhiteBoardBase::Update()
 	if(m_state == State::FINISH || m_state == State::DRAWING)
 		shape->P2 = { m_x, m_y };
 }
+
+void WhiteBoardBase::RegisterOnDrawCallback(const std::function<void(const Shape& shape)>& callback)
+{
+}
+
 //------------------------------------------------------------------------------
 void WhiteBoardBase::ChangeState()
 {
