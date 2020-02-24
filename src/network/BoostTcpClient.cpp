@@ -25,12 +25,12 @@ bool BoostTcpClient::Connect()
 	}
 }
 //------------------------------------------------------------------------------
-void BoostTcpClient::WriteAsync(std::istream& stream, const std::function<void(boost::system::error_code, std::size_t)>& errorCallback) const
+void BoostTcpClient::WriteAsync(const std::istream& stream, const OnActionCallback& errorCallback) const
 {
 	async_write(*m_socket, boost::asio::buffer(stream.rdbuf(), stream.gcount()), errorCallback);
 }
 //------------------------------------------------------------------------------
-void BoostTcpClient::AwaitData(const std::function<void(const boost::system::error_code&, size_t)>& callback)
+void BoostTcpClient::AwaitData(const OnActionCallback& callback)
 {
 	m_socket->async_read_some(boost::asio::buffer(m_buffer, bufferSize), callback);
 }
@@ -38,6 +38,11 @@ void BoostTcpClient::AwaitData(const std::function<void(const boost::system::err
 void BoostTcpClient::Receive(std::ostream& stream) const
 {
 	stream << &m_buffer;
+}
+//------------------------------------------------------------------------------
+BoostTcpClient::Socket& BoostTcpClient::GetSocket() const
+{
+	return *m_socket;
 }
 //------------------------------------------------------------------------------
 }

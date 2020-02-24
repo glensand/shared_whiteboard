@@ -17,7 +17,9 @@
 namespace Net
 {
 
-class BoostTcpClient
+using OnActionCallback = std::function<void(const boost::system::error_code&, size_t)>;
+	
+class BoostTcpClient final
 {
 	using Socket = boost::asio::ip::tcp::socket;
 	using SocketPtr = std::unique_ptr<Socket>;
@@ -30,15 +32,17 @@ public:
 		, m_port(port)
 	{}
 	
-	virtual ~BoostTcpClient() = default;
+	~BoostTcpClient() = default;
 
 	bool	Connect();
 
-	void	WriteAsync(std::istream&, const std::function<void(boost::system::error_code, std::size_t)>& errorCallback) const;
+	void	WriteAsync(const std::istream&, const OnActionCallback& errorCallback) const;
 
-	void	AwaitData(const std::function<void(const boost::system::error_code&, size_t)>& callback);
+	void	AwaitData(const OnActionCallback& callback);
 
 	void	Receive(std::ostream&) const;
+
+	Socket& GetSocket() const;
 	
 private:
 	std::string				m_host;
@@ -48,7 +52,9 @@ private:
 	SocketPtr				m_socket;
 
 	enum {bufferSize = 1000};
-	char			m_buffer[bufferSize];
+	char					m_buffer[bufferSize];
 };
 
+using Client = std::unique_ptr<BoostTcpClient>;
+	
 }

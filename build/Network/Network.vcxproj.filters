@@ -9,9 +9,21 @@
     <ClInclude Include="..\..\src\network\BoostTcpClient.h">
       <Filter>net</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\network\BoostTcpSession.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\BoostTcpServer.h">
+      <Filter>net</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\network\BoostTcpClient.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\BoostTcpSession.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\BoostTcpServer.cpp">
       <Filter>net</Filter>
     </ClCompile>
   </ItemGroup>

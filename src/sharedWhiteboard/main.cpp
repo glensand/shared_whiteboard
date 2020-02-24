@@ -1,8 +1,35 @@
 #include "sharedWhiteboard/SharedWhiteboard.h"
 #include "whiteboard/WhiteBoardCV.h"
+#include "network/BoostTcpServer.h"
+#include <iostream>
 
-int main()
+int main(int argc, char* argv[])
 {
-	wboard::shared::SharedWhiteboard board(wboard::WhiteBoard(new wboard::WhiteBoardCv()), "localhost", "1111");
-	board.Run();
+	if(argc < 2)
+	{
+		std::cout << "use:" << "[mode = {-server, -client}]" << std::endl;
+		std::cout << "if client mode enabled, also should be written server ip";
+
+		return -1;
+	}
+
+	if(argv[1] == "-server")
+	{
+		// Server
+		Net::BoostTcpServer server(1111);
+		server.Run();
+
+		std::cout << "Server finished" << std::endl;
+	}
+	else
+	{
+		// Client
+		wboard::shared::SharedWhiteboard board(wboard::WhiteBoard(new wboard::WhiteBoardCv()), argv[2], "1111");
+		board.Run();
+
+		std::cout << "Client finished" << std::endl;
+	}
+
+	int t;
+	std::cin >> t;
 }

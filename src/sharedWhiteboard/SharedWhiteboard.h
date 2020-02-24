@@ -37,10 +37,10 @@ private:
 	WhiteBoard							m_whiteBoard;
 	Net::BoostTcpClient					m_tcpClient;
 
-	std::function<void(const boost::system::error_code&, size_t)>	m_OnSentCallback;
-	std::function<void(const boost::system::error_code&, size_t)>	m_onReadCallback;
+	Net::OnActionCallback				m_OnSentCallback;
+	Net::OnActionCallback				m_onReadCallback;
 
-	std::stringstream	m_writeStream;
+	std::stringstream					m_writeStream;
 };
 
 }
