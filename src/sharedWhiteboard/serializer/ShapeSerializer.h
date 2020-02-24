@@ -33,7 +33,7 @@ public:
 	void						AddSerializer(Serializer&& serializer);
 	
 private:
-	ShapeSerializer() = default;
+	ShapeSerializer();
 
 						// I suppose chain of responsibility, it is most appropriate method
 						// to abstract serialization now

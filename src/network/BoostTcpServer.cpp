@@ -67,7 +67,7 @@ void BoostTcpServer::Receive(BoostTcpSession* client)
 	
 	for(const auto& session : m_sessions)
 	{
-		// TODO:: Добавить сравнение в клиент
+		// TODO:: Добавить сравнение в сессию
 		if(session->IsInitialized()/* && 
             client->GetSocket().local_endpoint() != session->GetSocket().local_endpoint()*/)
 		{

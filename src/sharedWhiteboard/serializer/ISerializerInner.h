@@ -17,6 +17,7 @@ namespace wboard
 {
 
 class ISerializerInner;
+
 using Serializer = std::unique_ptr<ISerializerInner>;
 
 class ISerializerInner

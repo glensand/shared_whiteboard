@@ -12,8 +12,8 @@ void ShapeSerializerBase::Serialize(std::ostream& stream, const Shape& shape) co
 	const auto type = shape->Type;
 	if (CanBeProcessed(type))
 	{
-		const auto writableType = static_cast<uint8_t>(shape->Type);
-		stream.write(reinterpret_cast<const char*>(&writableType), sizeof writableType);
+		SerializeType(stream, shape->Type);
+		
 		return SerializeImpl(stream, shape);
 	}
 	
@@ -22,11 +22,15 @@ void ShapeSerializerBase::Serialize(std::ostream& stream, const Shape& shape) co
 //------------------------------------------------------------------------------
 Shape ShapeSerializerBase::Deserialize(std::istream& stream) const
 {
-	uint8_t type = 0;
-	stream.read(reinterpret_cast<char*>(type), sizeof type);
-	const auto shapeType = static_cast<ShapeType>(type);
+	const auto type = DeserializeType(stream);
+	auto shape = Deserialize(stream, type);
+
+	// Вонючий костыль, это надо убрать
+	{
+		shape->Type = type;
+	}
 	
-	return Deserialize(stream, shapeType);
+	return shape;
 }
 //------------------------------------------------------------------------------
 void ShapeSerializerBase::AddNext(Serializer&& ser)

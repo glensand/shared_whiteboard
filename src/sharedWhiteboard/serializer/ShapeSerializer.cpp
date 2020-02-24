@@ -1,5 +1,7 @@
 ﻿#include "ShapeSerializer.h"
 
+#include "SimpleShapeSeializer.h"
+
 namespace wboard
 {
 //------------------------------------------------------------------------------
@@ -24,6 +26,11 @@ void ShapeSerializer::AddSerializer(Serializer&& serializer)
 	auto next = std::move(m_serializerChain);
 	m_serializerChain = std::move(serializer);
 	m_serializerChain->AddNext(std::move(next));
+}
+//------------------------------------------------------------------------------
+ShapeSerializer::ShapeSerializer()
+{
+	AddSerializer(std::unique_ptr<ISerializerInner>(std::make_unique<SimpleShapeSeializer>()));
 }
 //------------------------------------------------------------------------------
 }

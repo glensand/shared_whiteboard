@@ -36,6 +36,15 @@ bool BoostTcpClient::Connect()
 	}
 }
 //------------------------------------------------------------------------------
+void BoostTcpClient::RunService()
+{
+	m_serviceThread = std::thread([this]
+		{
+			m_service.run();
+		});
+	m_serviceThread.detach();
+}
+//------------------------------------------------------------------------------
 void BoostTcpClient::WriteAsync(const char* data, size_t count, const OnActionCallback& errorCallback) const
 {
 	async_write(*m_socket, boost::asio::buffer(data, count), errorCallback);

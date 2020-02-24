@@ -12,7 +12,9 @@
 #pragma once
 
 #include <boost/asio.hpp>
+
 #include <memory>
+#include <thread>
 
 namespace Net
 {
@@ -33,6 +35,9 @@ public:
 
 	bool	Connect();
 
+			// <<thread>>
+	void	RunService();
+	
 	void	WriteAsync(const char* data, size_t count, const OnActionCallback& errorCallback) const;
 
 	void	AwaitData(const OnActionCallback& callback);
@@ -46,6 +51,8 @@ public:
 	
 private:
 	bool			m_isInitialized;
+
+	std::thread		m_serviceThread;
 	
 	std::string		m_host;
 	std::string		m_port;

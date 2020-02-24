@@ -1,19 +1,18 @@
 ﻿#include "SimpleShapeSeializer.h"
-#include "ShapeSerializer.h"
-
 
 #include <ostream>
 #include <istream>
 
 namespace wboard
 {
-REGISTER_SERIALIZER(SimpleShapeSeializer);
+//REGISTER_SERIALIZER(SimpleShapeSeializer);
 //------------------------------------------------------------------------------
 bool SimpleShapeSeializer::CanBeProcessed(ShapeType type) const
 {
 	return type == ShapeType::Circle
 		|| type == ShapeType::Rect
-		|| type == ShapeType::Line;
+		|| type == ShapeType::Line
+		|| type == ShapeType::Curve;
 }
 //------------------------------------------------------------------------------
 void SimpleShapeSeializer::SerializeImpl(std::ostream& stream, const Shape& shape) const

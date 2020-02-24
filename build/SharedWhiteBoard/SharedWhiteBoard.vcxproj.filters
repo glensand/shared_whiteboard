@@ -38,6 +38,5 @@
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializerBase.cpp">
       <Filter>Serializer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\sharedWhiteboard\main.cpp" />
   </ItemGroup>
 </Project>

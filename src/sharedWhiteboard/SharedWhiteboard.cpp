@@ -36,6 +36,7 @@ SharedWhiteboard::SharedWhiteboard(WhiteBoard&& wb, const std::string& host, con
 void SharedWhiteboard::Run()
 {
 	m_tcpClient.Connect();
+	m_tcpClient.RunService();
 	m_tcpClient.AwaitData(m_onReadCallback);
 	
 	m_whiteBoard->RegisterOnDrawCallback(m_onDrawCallback);
@@ -53,17 +54,19 @@ void SharedWhiteboard::Send(const Shape& shape)
 
 	std::cout << "SharedWhiteboard::Send()" << std::endl;
 	std::cout << "m_writeStream size: " << m_writeStream.tellp() << std::endl;
-
-	m_tcpClient.AwaitData(m_onReadCallback);
 }
 //------------------------------------------------------------------------------
 void SharedWhiteboard::Receive()
 {
 	std::stringstream stream;
 	m_tcpClient.Receive(stream);
-	const auto shape = ShapeSerializer::Instance().Deserialize(stream);
-	m_whiteBoard->Draw(shape);
 
+	if(stream.tellp() != 0)
+	{
+		const auto shape = ShapeSerializer::Instance().Deserialize(stream);
+		m_whiteBoard->Draw(shape);
+	}
+	
 	std::cout << "SharedWhiteboard::Receive()" << std::endl;
 
 	m_tcpClient.AwaitData(m_onReadCallback);
