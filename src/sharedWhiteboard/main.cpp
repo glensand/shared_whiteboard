@@ -4,7 +4,7 @@
 #include <iostream>
 
 int main(int argc, char* argv[])
-{
+{	
 	if(argc < 2)
 	{
 		std::cout << "use:" << "[mode = {-server, -client}]" << std::endl;
@@ -13,9 +13,15 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	if(argv[1] == "-server")
-	{
+	const std::string mode = argv[1];
+	const std::string serverMode = "-server";
+	
+	if(mode == serverMode)
+	{	
 		// Server
+
+		std::cout << "Server" << std::endl;
+		
 		Net::BoostTcpServer server(1111);
 		server.Run();
 
@@ -24,6 +30,9 @@ int main(int argc, char* argv[])
 	else
 	{
 		// Client
+
+		std::cout << "Client" << std::endl;
+		
 		wboard::shared::SharedWhiteboard board(wboard::WhiteBoard(new wboard::WhiteBoardCv()), argv[2], "1111");
 		board.Run();
 

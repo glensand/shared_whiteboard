@@ -17,39 +17,44 @@ SharedWhiteboard::SharedWhiteboard(WhiteBoard&& wb, const std::string& host, con
 {
 	m_onDrawCallback = [this](const Shape& shape)
 	{
-		std::cout << "on draw callback" << std::endl;
 		Send(shape);
 	};
 
 	m_onReadCallback = [this](const boost::system::error_code&, size_t)
 	{
-		std::cout << "on read callback" << std::endl;
+		std::cout << "m_onReadCallback" << std::endl;
+		
 		Receive();
 	};
 
 	m_OnSentCallback = [this](const boost::system::error_code&, size_t)
 	{
-		std::cout << "on sent callback" << std::endl;
 		OnSentCallback();
 	};
 }
 //------------------------------------------------------------------------------
 void SharedWhiteboard::Run()
 {
-	m_whiteBoard->RegisterOnDrawCallback(m_onDrawCallback);
-	
 	m_tcpClient.Connect();
 	m_tcpClient.AwaitData(m_onReadCallback);
-
+	
+	m_whiteBoard->RegisterOnDrawCallback(m_onDrawCallback);
 	m_whiteBoard->Open();
+	
 	m_whiteBoard->Close();
 }
 //------------------------------------------------------------------------------
 void SharedWhiteboard::Send(const Shape& shape)
 {
-	m_writeStream.clear();
+	m_writeStream = std::stringstream();
+	
 	ShapeSerializer::Instance().Serialize(m_writeStream, shape);
-	m_tcpClient.WriteAsync(m_writeStream, m_OnSentCallback);
+	m_tcpClient.WriteAsync(reinterpret_cast<const char*>(m_writeStream.rdbuf()), m_writeStream.tellp(), m_OnSentCallback);
+
+	std::cout << "SharedWhiteboard::Send()" << std::endl;
+	std::cout << "m_writeStream size: " << m_writeStream.tellp() << std::endl;
+
+	m_tcpClient.AwaitData(m_onReadCallback);
 }
 //------------------------------------------------------------------------------
 void SharedWhiteboard::Receive()
@@ -58,11 +63,15 @@ void SharedWhiteboard::Receive()
 	m_tcpClient.Receive(stream);
 	const auto shape = ShapeSerializer::Instance().Deserialize(stream);
 	m_whiteBoard->Draw(shape);
+
+	std::cout << "SharedWhiteboard::Receive()" << std::endl;
+
+	m_tcpClient.AwaitData(m_onReadCallback);
 }
 //------------------------------------------------------------------------------	
 void SharedWhiteboard::OnSentCallback()
 {
-	std::cout << "Sent" << std::endl;
+	std::cout << "SharedWhiteboard::OnSentCallback()" << std::endl;
 }
 //------------------------------------------------------------------------------	
 }

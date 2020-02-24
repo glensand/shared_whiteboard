@@ -7,7 +7,7 @@ void ShapeSerializer::Serialize(std::ostream& stream, const Shape& shape) const
 {
 	m_serializerChain->Serialize(stream, shape);
 }
-
+//------------------------------------------------------------------------------
 Shape ShapeSerializer::Deserialize(std::istream& stream) const
 {
 	return m_serializerChain->Deserialize(stream);

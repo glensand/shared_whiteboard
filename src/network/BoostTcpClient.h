@@ -27,32 +27,34 @@ class BoostTcpClient final
 	
 public:
 	BoostTcpClient() = default;
-	BoostTcpClient(const std::string& host, const std::string& port)
-		: m_host(host)
-		, m_port(port)
-	{}
-	
+	BoostTcpClient(const std::string& host, const std::string& port);
+
 	~BoostTcpClient() = default;
 
 	bool	Connect();
 
-	void	WriteAsync(const std::istream&, const OnActionCallback& errorCallback) const;
+	void	WriteAsync(const char* data, size_t count, const OnActionCallback& errorCallback) const;
 
 	void	AwaitData(const OnActionCallback& callback);
 
 	void	Receive(std::ostream&) const;
 
 	Socket& GetSocket() const;
+
+	void	SetInitialized(bool init);
+	bool	IsInitialized() const;
 	
 private:
-	std::string				m_host;
-	std::string				m_port;
+	bool			m_isInitialized;
 	
-	Service					m_service;
-	SocketPtr				m_socket;
-
+	std::string		m_host;
+	std::string		m_port;
+	
+	Service			m_service;
+	SocketPtr		m_socket;
+	
 	enum {bufferSize = 1000};
-	char					m_buffer[bufferSize];
+	char			m_buffer[bufferSize];
 };
 
 using Client = std::unique_ptr<BoostTcpClient>;

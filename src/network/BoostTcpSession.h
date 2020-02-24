@@ -11,11 +11,43 @@
 //------------------------------------------------------------------------------
 #pragma once
 
-// TODO:: refactor client & server, session should be used to provide network activity
-class BoostTcpSession
+#include <boost/asio.hpp>
+#include <memory>
+
+namespace Net
 {
+
+using OnActionCallback = std::function<void(const boost::system::error_code&, size_t)>;
+
+class BoostTcpSession final
+{
+	using Socket = boost::asio::ip::tcp::socket;
+	using Service = boost::asio::io_service;
+
 public:
-	
-	BoostTcpSession() = default;
-	virtual ~BoostTcpSession() = default;
+	BoostTcpSession(Service& service);
+
+	~BoostTcpSession() = default;
+
+	void	WriteAsync(const char* data, size_t count, const OnActionCallback& errorCallback);
+
+	void	AwaitData(const OnActionCallback& callback);
+
+	void	Receive(std::ostream&) const;
+
+	Socket& GetSocket();
+
+	void	SetInitialized(bool init);
+	bool	IsInitialized() const;
+
+private:
+	Socket	m_socket;
+	bool	m_isInitialized;
+
+	enum { bufferSize = 1000 };
+	char	m_buffer[bufferSize];
 };
+
+using Session = std::unique_ptr<BoostTcpSession>;
+
+}

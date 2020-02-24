@@ -13,7 +13,7 @@
 
 #include <boost/asio.hpp>
 
-#include "BoostTcpClient.h"
+#include "BoostTcpSession.h"
 
 namespace Net
 {
@@ -31,9 +31,9 @@ private:
 
 	void	Accept();
 
-	void	Receive(BoostTcpClient& client);
+	void	Receive(BoostTcpSession* client);
 
-	std::vector<Client>				m_sessions;
+	std::vector<Session>			m_sessions;
 	boost::asio::io_service			m_service;
 	boost::asio::ip::tcp::acceptor	m_acceptor;
 
@@ -41,6 +41,8 @@ private:
 	std::stringstream				m_bufStream;
 
 	std::mutex m_receiveLock;
+
+	char b[1000];
 };
 	
 }
