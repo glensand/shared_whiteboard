@@ -28,26 +28,39 @@ class BoostTcpClient final
 	using Service = boost::asio::io_service;
 	
 public:
-	BoostTcpClient() = default;
+	BoostTcpClient()
+		: m_isInitialized(false)
+		, m_buffer{}
+	{
+	}
+
 	BoostTcpClient(const std::string& host, const std::string& port);
 
-	~BoostTcpClient() = default;
+	~BoostTcpClient() {}
 
 	bool	Connect();
+	
+	void	Close() const;
 
 			// <<thread>>
 	void	RunService();
 	
-	void	WriteAsync(const char* data, size_t count, const OnActionCallback& errorCallback) const;
+	void	WriteAsync(const char* data, size_t count, const OnActionCallback& callback) const;
+	
+	void	Write(const char* data, size_t count) const;
 
+	size_t	Read(std::ostream&);
+	
 	void	AwaitData(const OnActionCallback& callback);
 
-	void	Receive(std::stringstream&, size_t count) const;
+	void	Receive(std::ostream& stream,  size_t count) const;
 
 	Socket& GetSocket() const;
 
 	void	SetInitialized(bool init);
 	bool	IsInitialized() const;
+
+	void	SetEndpoint(const std::string& host, const std::string& port);
 	
 private:
 	bool			m_isInitialized;
