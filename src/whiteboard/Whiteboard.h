@@ -28,16 +28,21 @@ namespace wboard
 class WhiteBoardBase
 {
 public:
-	WhiteBoardBase() = default;
+	WhiteBoardBase();
 	virtual ~WhiteBoardBase() = default;
 
 	virtual void		Open() = 0;
 	virtual void		Close() = 0;
 
-	void				Draw(const Shape& shape) const;
+	virtual void		DrawShape(const Shape& shape) = 0;
 	void				RegisterOnDrawCallback(const std::function<void(const Shape& shape)>& callback);
 	
 protected:
+	void				SetUpdateFlag(bool val);
+	bool				GetUpdateFlag() const;
+	
+	virtual void		Show() const = 0;
+	
 	void				Draw() const;
 	void				Update();
 	
@@ -56,9 +61,10 @@ protected:
 
 	State			m_state{ State::WAIT };
 	RenderCtx		m_ctx;
-
-private:
 	Render			m_render;
+	
+private:
+	bool				m_shouldBeUpdated;
 	
 	boost::signals2::signal<void(const Shape&)>		m_onDrawSignal;
 	std::unordered_map<ShapeType, Shape>			m_shapesBuffer;

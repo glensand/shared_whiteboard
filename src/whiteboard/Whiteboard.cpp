@@ -13,19 +13,24 @@ void WhiteBoardBase::Draw() const
 		m_onDrawSignal(GetRenderCtx()->Shape);
 }
 //------------------------------------------------------------------------------
-void WhiteBoardBase::Draw(const Shape& shape) const
+WhiteBoardBase::WhiteBoardBase()
+	: m_shouldBeUpdated(false)
 {
-	std::cout << "WhiteBoardBase::Draw(const Shape& shape)" << std::endl;
-
-	const auto prev = GetRenderCtx()->Shape;
-	GetRenderCtx()->Shape = shape;
-	m_render->Render(GetRenderCtx());
-	GetRenderCtx()->Shape = prev;
 }
 //------------------------------------------------------------------------------
 void WhiteBoardBase::RegisterOnDrawCallback(const std::function<void(const Shape & shape)>& callback)
 {
 	m_onDrawSignal.connect(callback);
+}
+//------------------------------------------------------------------------------
+void WhiteBoardBase::SetUpdateFlag(bool val)
+{
+	m_shouldBeUpdated = val;
+}
+//------------------------------------------------------------------------------
+bool WhiteBoardBase::GetUpdateFlag() const
+{
+	return m_shouldBeUpdated;
 }
 //------------------------------------------------------------------------------
 void WhiteBoardBase::Update()

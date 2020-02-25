@@ -49,27 +49,25 @@ void SharedWhiteboard::Run()
 //------------------------------------------------------------------------------
 void SharedWhiteboard::Send(const Shape& shape)
 {
-	m_writeStream = std::stringstream();
+	std::stringstream stream;
 	
-	ShapeSerializer::Instance().Serialize(m_writeStream, shape);
-	m_tcpClient.WriteAsync(reinterpret_cast<const char*>(m_writeStream.rdbuf()), m_writeStream.tellp(), m_OnSentCallback);
+	ShapeSerializer::Instance().Serialize(stream, shape);
+	m_writeBuffer = stream.rdbuf()->str();
+	m_tcpClient.WriteAsync(reinterpret_cast<const char*>(m_writeBuffer.c_str()), m_writeBuffer.size(), m_OnSentCallback);
 
 	std::cout << "SharedWhiteboard::Send()" << std::endl;
-	std::cout << "m_writeStream size: " << m_writeStream.tellp() << std::endl;
+	std::cout << "m_writeStream size: " << m_writeBuffer.size() << std::endl;
 }
 //------------------------------------------------------------------------------
 void SharedWhiteboard::Receive(size_t count)
 {
 	std::stringstream stream;
 	m_tcpClient.Receive(stream, count);
-;
-	stream.seekg(stream.tellp());
-	//stream.
-	//std::ostream()
+
 	if(stream.tellp() != 0)
 	{
 		const auto shape = ShapeSerializer::Instance().Deserialize(stream);
-		m_whiteBoard->Draw(shape);
+		m_whiteBoard->DrawShape(shape);
 	}
 	
 	std::cout << "SharedWhiteboard::Receive()" << std::endl;

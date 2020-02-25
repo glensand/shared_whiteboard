@@ -63,8 +63,9 @@ void BoostTcpServer::Receive(BoostTcpSession* client, size_t count)
 	
     std::lock_guard<std::mutex> guard(m_receiveLock);
 	
-    m_bufStream = std::stringstream();
-    client->Receive(m_bufStream, count);
+    std::stringstream stream;
+    client->Receive(stream, count);
+    m_bufStream = stream.rdbuf()->str();
 	
 	for(const auto& session : m_sessions)
 	{
@@ -72,9 +73,7 @@ void BoostTcpServer::Receive(BoostTcpSession* client, size_t count)
 		if(session->IsInitialized()/* && 
             client->GetSocket().local_endpoint() != session->GetSocket().local_endpoint()*/)
 		{
-            std::cout << m_bufStream.rdbuf();
-            session->WriteAsync(reinterpret_cast<const char*>(m_bufStream.rdbuf()), m_bufStream.tellp(), m_OnWriteCallback);
-           // session->WriteAsync(b, 1000, m_OnWriteCallback);
+            session->WriteAsync(reinterpret_cast<const char*>(m_bufStream.c_str()), m_bufStream.size(), m_OnWriteCallback);
 
             std::cout << "BoostTcpServer::Receive session->WriteAsync" << std::endl;
 		}

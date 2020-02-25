@@ -44,16 +44,17 @@ public:
 
 			// <<thread>>
 	void	RunService();
+	void	StopService();
 	
 	void	WriteAsync(const char* data, size_t count, const OnActionCallback& callback) const;
 	
 	void	Write(const char* data, size_t count) const;
 
-	size_t	Read(std::ostream&);
+	size_t	Read(std::stringstream&);
 	
 	void	AwaitData(const OnActionCallback& callback);
 
-	void	Receive(std::ostream& stream,  size_t count) const;
+	void	Receive(std::stringstream& stream, size_t count) const;
 
 	Socket& GetSocket() const;
 

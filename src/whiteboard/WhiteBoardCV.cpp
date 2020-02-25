@@ -37,7 +37,8 @@ WhiteBoardCv::WhiteBoardCv()
 void WhiteBoardCv::Open()
 {
 	Show();
-	ListenKeyboardInput();
+	
+	Run();
 }
 //------------------------------------------------------------------------------
 void WhiteBoardCv::Close()
@@ -45,7 +46,25 @@ void WhiteBoardCv::Close()
 	cv::destroyWindow(m_appName);
 }
 //------------------------------------------------------------------------------
-void WhiteBoardCv::Show()
+void WhiteBoardCv::DrawShape(const Shape& shape)
+{
+	// Здесь вонючий код
+	// и вообще этот класс надо бы отрефакторить
+	auto cvCtx = static_cast<ContextCV*>(m_ctx.get());
+
+	m_boardOnFrame = m_board.clone();
+	cvCtx->Board = m_board;
+		
+	const auto prev = cvCtx->Shape;
+	cvCtx->Shape = shape;
+	m_render->Render(GetRenderCtx());
+	
+	GetRenderCtx()->Shape = prev;
+
+	SetUpdateFlag(true);
+}
+//------------------------------------------------------------------------------
+void WhiteBoardCv::Show() const
 {
 	cv::imshow(m_appName, m_boardOnFrame);
 }
@@ -56,12 +75,18 @@ void WhiteBoardCv::OnMouseHandle(int event, int x, int y, int, void* instance)
 	reinterpret_cast<WhiteBoardCv*>(instance)->OnMouseHandleInner(event, x, y);
 }
 //------------------------------------------------------------------------------
-void WhiteBoardCv::ListenKeyboardInput()
+void WhiteBoardCv::Run()
 {
 	for(;;)
 	{
-		const auto pressedKey = cv::waitKey(0);
+		const auto pressedKey = cv::waitKey(100);
 		OnKeyboardHandle(pressedKey);
+
+		if (GetUpdateFlag())
+		{
+			SetUpdateFlag(false);
+			Show();
+		}
 	}
 }
 //------------------------------------------------------------------------------

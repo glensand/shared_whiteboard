@@ -12,7 +12,7 @@ void ShapeSerializerBase::Serialize(std::stringstream& stream, const Shape& shap
 	const auto type = shape->Type;
 	if (CanBeProcessed(type))
 	{
-		SerializeType(stream, shape->Type);
+		SerializeType(stream, type);
 		
 		return SerializeImpl(stream, shape);
 	}
@@ -53,7 +53,7 @@ Shape ShapeSerializerBase::Deserialize(std::stringstream& stream, ShapeType type
 ShapeType ShapeSerializerBase::DeserializeType(std::stringstream& stream)
 {
 	uint8_t type = 0;
-	stream.read(reinterpret_cast<char*>(type), sizeof type);
+	stream.read(reinterpret_cast<char*>(&type), sizeof type);
 	return static_cast<ShapeType>(type);
 }
 //------------------------------------------------------------------------------

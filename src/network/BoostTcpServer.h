@@ -38,11 +38,9 @@ private:
 	boost::asio::ip::tcp::acceptor	m_acceptor;
 
 	OnActionCallback				m_OnWriteCallback;
-	std::stringstream				m_bufStream;
+	std::string						m_bufStream;
 
 	std::mutex m_receiveLock;
-
-	char b[1000];
 };
 	
 }

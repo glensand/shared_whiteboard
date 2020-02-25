@@ -29,6 +29,8 @@ public:
 
 	void			Open() override;
 	void			Close() override;
+
+	void			DrawShape(const Shape& shape) override;
 	
 	void			OnMouseHandleInner(int event, int x, int y);
 	static void		OnMouseHandle(int event, int x, int y, int, void* instance);
@@ -36,9 +38,9 @@ public:
 	void			OnKeyboardHandle(int k);
 	
 private:
-	void			ListenKeyboardInput();
+	void			Run();
 	
-	void			Show();
+	void			Show() const override;
 	std::string		m_appName { "whiteboard" };
 	
 	cv::Mat			m_board;

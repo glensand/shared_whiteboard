@@ -40,7 +40,7 @@ private:
 	Net::OnActionCallback				m_OnSentCallback;
 	Net::OnActionCallback				m_onReadCallback;
 
-	std::stringstream					m_writeStream;
+	std::string		m_writeBuffer;
 };
 
 }

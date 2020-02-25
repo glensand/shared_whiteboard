@@ -44,19 +44,30 @@
 
 int main(int argc, char* argv[])
 {
-	auto shape = std::make_shared<wboard::SimpleShape>();
-	shape->Type = wboard::ShapeType::Curve;
+	std::string str;
+	std::stringstream stream(str);
+	int t = 1000;
+	stream.write(reinterpret_cast<const char*>(&t), sizeof t);
+	int b = -1;
+	stream.read(reinterpret_cast<char*>(&b), sizeof b);
+	std::cout << b;
+	stream << "lol";
+	std::cout << str << std::endl;
+	//auto shape = std::make_shared<wboard::SimpleShape>();
+	//shape->Type = wboard::ShapeType::Curve;
 
-	std::stringstream stream;
-	const wboard::SimpleShapeSeializer ser;
+	//std::stringstream stream;
+	//const wboard::SimpleShapeSeializer ser;
 
-	ser.Serialize(stream, shape);
+	//ser.Serialize(stream, shape);
 
-	std::cout << stream.tellp() << std::endl;
-	stream.seekg(stream.tellp());
-	std::cout << stream.tellg() << std::endl;
+	//std::cout << stream.tellp() << std::endl;
+	//stream.seekg(stream.tellp());
+	//std::cout << stream.tellg() << std::endl;
+	//
+	//const auto deserializedShape = ser.Deserialize(stream);
+
+	//std::cout << int(deserializedShape->Type) << std::endl;
+
 	
-	const auto deserializedShape = ser.Deserialize(stream);
-
-	std::cout << int(deserializedShape->Type) << std::endl;
 }
