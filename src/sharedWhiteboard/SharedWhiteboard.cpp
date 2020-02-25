@@ -20,15 +20,17 @@ SharedWhiteboard::SharedWhiteboard(WhiteBoard&& wb, const std::string& host, con
 		Send(shape);
 	};
 
-	m_onReadCallback = [this](const boost::system::error_code&, size_t)
+	m_onReadCallback = [this](const boost::system::error_code&, size_t size)
 	{
-		std::cout << "m_onReadCallback" << std::endl;
+		std::cout << "m_onReadCallback count: " << size << std::endl;
 		
-		Receive();
+		Receive(size);
 	};
 
-	m_OnSentCallback = [this](const boost::system::error_code&, size_t)
+	m_OnSentCallback = [this](const boost::system::error_code&, size_t size)
 	{
+		std::cout << "m_OnSentCallback count: " << size << std::endl;
+		
 		OnSentCallback();
 	};
 }
@@ -56,11 +58,14 @@ void SharedWhiteboard::Send(const Shape& shape)
 	std::cout << "m_writeStream size: " << m_writeStream.tellp() << std::endl;
 }
 //------------------------------------------------------------------------------
-void SharedWhiteboard::Receive()
+void SharedWhiteboard::Receive(size_t count)
 {
 	std::stringstream stream;
-	m_tcpClient.Receive(stream);
-
+	m_tcpClient.Receive(stream, count);
+;
+	stream.seekg(stream.tellp());
+	//stream.
+	//std::ostream()
 	if(stream.tellp() != 0)
 	{
 		const auto shape = ShapeSerializer::Instance().Deserialize(stream);

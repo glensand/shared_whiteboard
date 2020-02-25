@@ -42,7 +42,7 @@ public:
 
 	void	AwaitData(const OnActionCallback& callback);
 
-	void	Receive(std::ostream&) const;
+	void	Receive(std::stringstream&, size_t count) const;
 
 	Socket& GetSocket() const;
 

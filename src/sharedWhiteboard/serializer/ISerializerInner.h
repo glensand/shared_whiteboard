@@ -27,13 +27,13 @@ public:
 	ISerializerInner() = default;
 	virtual ~ISerializerInner() = default;
 
-	virtual void				Serialize(std::ostream& stream, const Shape& shape) const = 0;
-	virtual Shape				Deserialize(std::istream& stream) const = 0;
+	virtual void				Serialize(std::stringstream& stream, const Shape& shape) const = 0;
+	virtual Shape				Deserialize(std::stringstream& stream) const = 0;
 	
 	virtual void				AddNext(Serializer&& ser) = 0;
 	virtual const Serializer&	GetNext() const = 0;
 
-	virtual Shape				Deserialize(std::istream& stream, ShapeType type) const = 0;
+	virtual Shape				Deserialize(std::stringstream& stream, ShapeType type) const = 0;
 };
 	
 }

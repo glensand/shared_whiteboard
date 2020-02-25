@@ -31,7 +31,7 @@ private:
 
 	void	Accept();
 
-	void	Receive(BoostTcpSession* client);
+	void	Receive(BoostTcpSession* client, size_t);
 
 	std::vector<Session>			m_sessions;
 	boost::asio::io_service			m_service;

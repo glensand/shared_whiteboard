@@ -53,8 +53,8 @@ int main(int argc, char* argv[])
 	ser.Serialize(stream, shape);
 
 	std::cout << stream.tellp() << std::endl;
-	stream.seekp(stream.tellp(), std::ios::cur);
-	std::cout << stream.tellp() << std::endl;
+	stream.seekg(stream.tellp());
+	std::cout << stream.tellg() << std::endl;
 	
 	const auto deserializedShape = ser.Deserialize(stream);
 

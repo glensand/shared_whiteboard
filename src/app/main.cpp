@@ -1,6 +1,7 @@
 #include "sharedWhiteboard/SharedWhiteboard.h"
 #include "whiteboard/WhiteBoardCV.h"
 #include "network/BoostTcpServer.h"
+
 #include <iostream>
 
 int main(int argc, char* argv[])

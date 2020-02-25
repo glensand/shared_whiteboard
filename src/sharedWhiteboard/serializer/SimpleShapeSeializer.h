@@ -25,8 +25,8 @@ public:
 
 protected:
 	bool	CanBeProcessed(ShapeType type) const override;
-	void	SerializeImpl(std::ostream& stream, const Shape& shape) const override;
-	Shape	DeserializeImpl(std::istream& stream) const override;
+	void	SerializeImpl(std::stringstream& stream, const Shape& shape) const override;
+	Shape	DeserializeImpl(std::stringstream& stream) const override;
 };
 
 }

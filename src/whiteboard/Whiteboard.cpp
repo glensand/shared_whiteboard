@@ -1,4 +1,5 @@
 #include "Whiteboard.h"
+#include <iostream>
 
 namespace wboard
 {
@@ -14,8 +15,12 @@ void WhiteBoardBase::Draw() const
 //------------------------------------------------------------------------------
 void WhiteBoardBase::Draw(const Shape& shape) const
 {
+	std::cout << "WhiteBoardBase::Draw(const Shape& shape)" << std::endl;
+
+	const auto prev = GetRenderCtx()->Shape;
 	GetRenderCtx()->Shape = shape;
 	m_render->Render(GetRenderCtx());
+	GetRenderCtx()->Shape = prev;
 }
 //------------------------------------------------------------------------------
 void WhiteBoardBase::RegisterOnDrawCallback(const std::function<void(const Shape & shape)>& callback)

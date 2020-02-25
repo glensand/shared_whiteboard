@@ -26,8 +26,8 @@ public:
 	
 	~ShapeSerializer() = default;
 
-	void						Serialize(std::ostream& stream, const Shape& shape) const;
-	Shape						Deserialize(std::istream& stream) const;
+	void						Serialize(std::stringstream& stream, const Shape& shape) const;
+	Shape						Deserialize(std::stringstream& stream) const;
 	
 	static ShapeSerializer&		Instance();
 	void						AddSerializer(Serializer&& serializer);

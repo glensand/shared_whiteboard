@@ -29,7 +29,7 @@ public:
 	void	Run();
 	void	Send(const Shape&);
 	
-	void	Receive();
+	void	Receive(size_t count);
 	void	OnSentCallback();
 	
 private:

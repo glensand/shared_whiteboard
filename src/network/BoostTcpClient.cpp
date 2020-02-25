@@ -56,9 +56,9 @@ void BoostTcpClient::AwaitData(const OnActionCallback& callback)
 	m_socket->async_read_some(boost::asio::buffer(m_buffer, bufferSize), callback);
 }
 //------------------------------------------------------------------------------
-void BoostTcpClient::Receive(std::ostream& stream) const
+void BoostTcpClient::Receive(std::stringstream& stream, size_t count) const
 {
-	stream << &m_buffer;
+	stream.write(m_buffer, count);
 }
 //------------------------------------------------------------------------------
 BoostTcpClient::Socket& BoostTcpClient::GetSocket() const

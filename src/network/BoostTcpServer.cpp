@@ -45,9 +45,10 @@ void BoostTcpServer::Accept()
                 session->GetSocket().set_option(boost::asio::ip::tcp::no_delay(true));
             	
                 session->AwaitData(
-                    [this, session](const boost::system::error_code&, size_t)
+                    [this, session](const boost::system::error_code&, size_t count)
                     {
-                        Receive(session);
+                        std::cout << "Await read_async count: " << count << std::endl;
+                        Receive(session, count);
                     });
             }
 
@@ -56,14 +57,14 @@ void BoostTcpServer::Accept()
     );
 }
 //------------------------------------------------------------------------------
-void BoostTcpServer::Receive(BoostTcpSession* client)
+void BoostTcpServer::Receive(BoostTcpSession* client, size_t count)
 {
     std::cout << "BoostTcpServer::Receive" << std::endl;
 	
     std::lock_guard<std::mutex> guard(m_receiveLock);
 	
     m_bufStream = std::stringstream();
-    client->Receive(m_bufStream);
+    client->Receive(m_bufStream, count);
 	
 	for(const auto& session : m_sessions)
 	{
@@ -80,9 +81,9 @@ void BoostTcpServer::Receive(BoostTcpSession* client)
 	}
 
 	// Копипаста
-    client->AwaitData([this, client](const boost::system::error_code&, size_t)
+    client->AwaitData([this, client](const boost::system::error_code&, size_t count)
         {
-            Receive(client);
+            Receive(client, count);
         });
 }
 //------------------------------------------------------------------------------		

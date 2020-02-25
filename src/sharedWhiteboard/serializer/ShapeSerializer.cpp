@@ -5,12 +5,12 @@
 namespace wboard
 {
 //------------------------------------------------------------------------------
-void ShapeSerializer::Serialize(std::ostream& stream, const Shape& shape) const
+void ShapeSerializer::Serialize(std::stringstream& stream, const Shape& shape) const
 {
 	m_serializerChain->Serialize(stream, shape);
 }
 //------------------------------------------------------------------------------
-Shape ShapeSerializer::Deserialize(std::istream& stream) const
+Shape ShapeSerializer::Deserialize(std::stringstream& stream) const
 {
 	return m_serializerChain->Deserialize(stream);
 }

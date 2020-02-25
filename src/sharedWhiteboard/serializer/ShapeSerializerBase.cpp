@@ -2,12 +2,12 @@
 #include "ShapeSerializer.h"
 
 #include <ostream>
-#include <istream>
+#include <sstream>
 
 namespace wboard
 {
 //------------------------------------------------------------------------------
-void ShapeSerializerBase::Serialize(std::ostream& stream, const Shape& shape) const
+void ShapeSerializerBase::Serialize(std::stringstream& stream, const Shape& shape) const
 {
 	const auto type = shape->Type;
 	if (CanBeProcessed(type))
@@ -20,7 +20,7 @@ void ShapeSerializerBase::Serialize(std::ostream& stream, const Shape& shape) co
 	return m_next->Serialize(stream, shape);
 }
 //------------------------------------------------------------------------------
-Shape ShapeSerializerBase::Deserialize(std::istream& stream) const
+Shape ShapeSerializerBase::Deserialize(std::stringstream& stream) const
 {
 	const auto type = DeserializeType(stream);
 	auto shape = Deserialize(stream, type);
@@ -43,21 +43,21 @@ const Serializer& ShapeSerializerBase::GetNext() const
 	return m_next;
 }
 //------------------------------------------------------------------------------
-Shape ShapeSerializerBase::Deserialize(std::istream& stream, ShapeType type) const
+Shape ShapeSerializerBase::Deserialize(std::stringstream& stream, ShapeType type) const
 {
 	if (CanBeProcessed(type)) return DeserializeImpl(stream);
 
 	return GetNext()->Deserialize(stream, type);
 }
 //------------------------------------------------------------------------------
-ShapeType ShapeSerializerBase::DeserializeType(std::istream& stream)
+ShapeType ShapeSerializerBase::DeserializeType(std::stringstream& stream)
 {
 	uint8_t type = 0;
 	stream.read(reinterpret_cast<char*>(type), sizeof type);
 	return static_cast<ShapeType>(type);
 }
 //------------------------------------------------------------------------------
-void ShapeSerializerBase::SerializeType(std::ostream& stream, ShapeType type)
+void ShapeSerializerBase::SerializeType(std::stringstream& stream, ShapeType type)
 {
 	const auto writableType = static_cast<uint8_t>(type);
 	stream.write(reinterpret_cast<const char*>(&writableType), sizeof(writableType));

@@ -1,7 +1,8 @@
 ﻿#include "SimpleShapeSeializer.h"
 
 #include <ostream>
-#include <istream>
+#include <sstream>
+#include <iostream>
 
 namespace wboard
 {
@@ -15,16 +16,18 @@ bool SimpleShapeSeializer::CanBeProcessed(ShapeType type) const
 		|| type == ShapeType::Curve;
 }
 //------------------------------------------------------------------------------
-void SimpleShapeSeializer::SerializeImpl(std::ostream& stream, const Shape& shape) const
+void SimpleShapeSeializer::SerializeImpl(std::stringstream& stream, const Shape& shape) const
 {
 	// TODO:: real serialization
 	stream.write(reinterpret_cast<const char*>(shape.get()), sizeof(*shape));
 }
 //------------------------------------------------------------------------------
-Shape SimpleShapeSeializer::DeserializeImpl(std::istream& stream) const
+Shape SimpleShapeSeializer::DeserializeImpl(std::stringstream& stream) const
 {
 	// TODO:: real serialization
 	auto shape = std::make_shared<SimpleShape>();
+
+	std::cout << sizeof * shape << std::endl;
 	stream.read(reinterpret_cast<char*>(shape.get()), sizeof(*shape));
 	return shape;
 }
