@@ -3,11 +3,11 @@
 //
 // SimpleShapeSeializer implements...
 //
-// Copyright (c) 2020 Afti
+// Copyright (c) 2020 glensand
 // All rights reserved.
 //
 // Date: dd.mm.2020
-// Author: glensand
+// Author: Bezborodov Gleb
 //------------------------------------------------------------------------------
 #pragma once
 

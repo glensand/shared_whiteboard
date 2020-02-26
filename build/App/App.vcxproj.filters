@@ -3,4 +3,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\app\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Configure.h" />
+  </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#include "sharedWhiteboard/SharedWhiteboard.h"
+#include "sharedWhiteboard/SharedWhiteboardClient.h"
 #include "whiteboard/WhiteBoardCV.h"
 #include "network/BoostTcpServer.h"
 
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 
 		std::cout << "Client" << std::endl;
 		
-		wboard::shared::SharedWhiteboard board(wboard::WhiteBoard(new wboard::WhiteBoardCv()), argv[2], "1111");
+		wboard::shared::SharedWhiteboardClient board(wboard::WhiteBoard(new wboard::WhiteBoardCv()), argv[2], "1111");
 		board.Run();
 
 		std::cout << "Client finished" << std::endl;

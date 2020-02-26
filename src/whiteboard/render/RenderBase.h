@@ -1,7 +1,7 @@
 ﻿//------------------------------------------------------------------------------
 // RenderBase.h
 // 
-// Copyright (c) 2020 glensand
+// Copyright (c) 2020 Bezborodov Gleb
 // All rights reserved.
 //
 // Date: 02.08.2020

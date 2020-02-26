@@ -7,6 +7,9 @@
     <Filter Include="Serializer">
       <UniqueIdentifier>{3a95fd86-187c-4086-9218-66f6a8f71603}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protocol">
+      <UniqueIdentifier>{808fdb02-9f76-42fc-931e-0ccb31154297}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ISerializerInner.h">
@@ -15,28 +18,28 @@
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.h">
       <Filter>Serializer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\sharedWhiteboard\SharedWhiteboard.h">
-      <Filter>wb</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSeializer.h">
       <Filter>Serializer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializerBase.h">
       <Filter>Serializer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\SharedWhiteboardClient.h">
+      <Filter>wb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.cpp">
       <Filter>Serializer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\sharedWhiteboard\SharedWhiteboard.cpp">
-      <Filter>wb</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSeializer.cpp">
       <Filter>Serializer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializerBase.cpp">
       <Filter>Serializer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sharedWhiteboard\SharedWhiteboardClient.cpp">
+      <Filter>wb</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

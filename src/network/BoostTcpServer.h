@@ -3,17 +3,19 @@
 //
 // BoostTcpServer implements...
 //
-// Copyright (c) 2020 Afti
+// Copyright (c) 2020 glensand
 // All rights reserved.
 //
 // Date: 22.02.2020
-// Author: glensand
+// Author: Bezborodov Gleb
 //------------------------------------------------------------------------------
 #pragma once
 
 #include <boost/asio.hpp>
 
 #include "BoostTcpSession.h"
+
+// TODO:: refactor server, interface and more abstract entities should be added
 
 namespace Net
 {
@@ -25,7 +27,7 @@ public:
 	~BoostTcpServer() = default;
 
 	void	Run();
-
+	
 private:
 	void	OnWrite();
 

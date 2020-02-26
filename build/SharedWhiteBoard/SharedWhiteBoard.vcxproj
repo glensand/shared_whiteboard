@@ -167,13 +167,13 @@
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializerBase.h" />
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.h" />
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSeializer.h" />
-    <ClInclude Include="..\..\src\sharedWhiteboard\SharedWhiteboard.h" />
+    <ClInclude Include="..\..\src\sharedWhiteboard\SharedWhiteboardClient.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializerBase.cpp" />
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.cpp" />
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSeializer.cpp" />
-    <ClCompile Include="..\..\src\sharedWhiteboard\SharedWhiteboard.cpp" />
+    <ClCompile Include="..\..\src\sharedWhiteboard\SharedWhiteboardClient.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

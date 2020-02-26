@@ -7,7 +7,7 @@ namespace Net
 BoostTcpServer::BoostTcpServer(size_t port)
 	: m_acceptor(m_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 {
-    m_OnWriteCallback = [this](const boost::system::error_code&, size_t count)
+    m_OnWriteCallback = [this](size_t count)
     {
         std::cout << "m_OnWriteCallback count: " << count << std::endl;
         OnWrite();
@@ -45,7 +45,7 @@ void BoostTcpServer::Accept()
                 session->GetSocket().set_option(boost::asio::ip::tcp::no_delay(true));
             	
                 session->AwaitData(
-                    [this, session](const boost::system::error_code&, size_t count)
+                    [this, session](size_t count)
                     {
                         std::cout << "Await read_async count: " << count << std::endl;
                         Receive(session, count);
@@ -80,7 +80,7 @@ void BoostTcpServer::Receive(BoostTcpSession* client, size_t count)
 	}
 
 	// Копипаста
-    client->AwaitData([this, client](const boost::system::error_code&, size_t count)
+    client->AwaitData([this, client](size_t count)
         {
             Receive(client, count);
         });

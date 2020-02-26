@@ -4,28 +4,41 @@
 
 namespace Net
 {
-//------------------------------------------------------------------------------
-BoostTcpClient::BoostTcpClient(const std::string& host, const std::string& port)
-	: m_isInitialized(false)
-    , m_host(host)
-	, m_port(port)
+//------------------------------------------------------------------------------	
+BoostTcpClient::BoostTcpClient()
+	: m_session(m_service)
 {
-
 }
 //------------------------------------------------------------------------------
-bool BoostTcpClient::Connect()
+BoostTcpClient::~BoostTcpClient()
+{
+	try
+	{
+		StopAsyncHandler();
+		m_session.GetSocket().close();
+	}
+	catch(...)
+	{
+		std::cout << "BoostTcpClient::~BoostTcpClient() exception" << std::endl;
+	}
+}
+//------------------------------------------------------------------------------
+bool BoostTcpClient::Connect(const std::string& host, const std::string& port)
 {
 	try
 	{
 		boost::asio::ip::tcp::resolver resolver(m_service);
-		const auto endpoints = resolver.resolve(boost::asio::ip::tcp::v4(), m_host, m_port);
-		const boost::asio::ip::tcp::no_delay option(true);
-		m_socket = std::make_unique<Socket>(m_service);
-		m_socket->open(boost::asio::ip::tcp::v4());
-		m_socket->set_option(option);
-		boost::asio::connect(*m_socket, endpoints);
+		const auto endpoints = resolver.resolve(boost::asio::ip::tcp::v4(), host, port);
 
-		m_isInitialized = true;
+		auto& socket = m_session.GetSocket();
+		socket.open(boost::asio::ip::tcp::v4());
+
+		{
+			socket.set_option(boost::asio::ip::tcp::no_delay(true));
+			socket.set_option(boost::asio::socket_base::keep_alive(true));
+		}
+		
+		boost::asio::connect(m_session.GetSocket(), endpoints);
 
 		std::cout << "Connected" << std::endl;
 		return true;
@@ -37,72 +50,74 @@ bool BoostTcpClient::Connect()
 	}
 }
 //------------------------------------------------------------------------------
-void BoostTcpClient::Close() const
+bool BoostTcpClient::IsOpen() const
 {
-	m_socket->close();
+	return m_session.GetSocket().is_open();
 }
 //------------------------------------------------------------------------------
-void BoostTcpClient::RunService()
+void BoostTcpClient::Close()
 {
-	m_serviceThread = std::thread([this]
+	m_session.GetSocket().close();
+}
+//------------------------------------------------------------------------------
+void BoostTcpClient::RunAsyncHandler()
+{
+	m_serviceThread = std::make_unique<std::thread>([this]
 		{
 			m_service.run();
 		});
-	m_serviceThread.detach();
+	
+	m_serviceThread->detach();
 }
 //------------------------------------------------------------------------------
-void BoostTcpClient::StopService()
+void BoostTcpClient::StopAsyncHandler()
 {
 	m_service.stop();
+	m_serviceThread.reset();
 }
 //------------------------------------------------------------------------------
-void BoostTcpClient::WriteAsync(const char* data, size_t count, const OnActionCallback& callback) const
+void BoostTcpClient::WriteAsync(const char* data, size_t count, const OnActionCallback& callback)
 {
-	async_write(*m_socket, boost::asio::buffer(data, count), callback);
+	m_session.WriteAsync(data, count, callback);
 }
 //------------------------------------------------------------------------------
-void BoostTcpClient::Write(const char* data, size_t count) const
+size_t BoostTcpClient::WriteSome(const char* data, size_t count)
 {
-	m_socket->write_some(boost::asio::buffer(data, count));
+	return m_session.WriteSome(data, count);
 }
 //------------------------------------------------------------------------------
-size_t BoostTcpClient::Read(std::stringstream& stream)
+void BoostTcpClient::Write(const char* data, size_t count)
 {
-	const auto size = m_socket->read_some(boost::asio::buffer(m_buffer, bufferSize));
-	stream.write(m_buffer, size);
-	return size;
+	m_session.Write(data, count);
+}
+//------------------------------------------------------------------------------
+size_t BoostTcpClient::ReadSome(std::ostream& stream)
+{
+	return m_session.ReadSome(stream);
+}
+//------------------------------------------------------------------------------
+void BoostTcpClient::ReadSomeAsync(std::ostream& stream, const OnActionCallback& callback)
+{
+	m_session.AwaitData([this, &stream, &callback](size_t count)
+		{
+			Receive(stream, count);
+			callback(count);
+		});
+}
+//------------------------------------------------------------------------------
+size_t BoostTcpClient::Read(std::ostream& stream, size_t count)
+{
+	return m_session.Read(stream, count);
 }
 //------------------------------------------------------------------------------
 void BoostTcpClient::AwaitData(const OnActionCallback& callback)
 {
-	std::cout << "BoostTcpClient::AwaitData" << std::endl;
-	m_socket->async_read_some(boost::asio::buffer(m_buffer, bufferSize), callback);
+	m_session.AwaitData(callback);
 }
 //------------------------------------------------------------------------------
-void BoostTcpClient::Receive(std::stringstream& stream, size_t count) const
+void BoostTcpClient::Receive(std::ostream& stream, size_t count) const
 {
-	stream.write(m_buffer, count);
-}
-//------------------------------------------------------------------------------
-BoostTcpClient::Socket& BoostTcpClient::GetSocket() const
-{
-	return *m_socket;
-}
-//------------------------------------------------------------------------------
-void BoostTcpClient::SetInitialized(bool init)
-{
-	m_isInitialized = init;
-}
-//------------------------------------------------------------------------------
-bool BoostTcpClient::IsInitialized() const
-{
-	return m_isInitialized;
-}
-//------------------------------------------------------------------------------
-void BoostTcpClient::SetEndpoint(const std::string& host, const std::string& port)
-{
-	m_host = host;
-	m_port = port; 
+	m_session.Receive(stream, count);
 }
 //------------------------------------------------------------------------------
 }

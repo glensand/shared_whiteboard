@@ -1,15 +1,16 @@
 ﻿//------------------------------------------------------------------------------
 // BoostTcpClient.h
 //
-// BoostTcpClient implements...
-//
-// Copyright (c) 2020 Afti
+// Copyright (c) 2020 glensand
 // All rights reserved.
 //
 // Date: 21.02.2020
-// Author: glensand
+// Author: Bezborodov Gleb
 //------------------------------------------------------------------------------
 #pragma once
+
+#include "ITcpClient.h"
+#include "BoostTcpSession.h"
 
 #include <boost/asio.hpp>
 
@@ -18,66 +19,41 @@
 
 namespace Net
 {
-
-using OnActionCallback = std::function<void(const boost::system::error_code&, size_t)>;
 	
-class BoostTcpClient final
+class BoostTcpClient final : public ITcpClient
 {
-	using Socket = boost::asio::ip::tcp::socket;
-	using SocketPtr = std::unique_ptr<Socket>;
 	using Service = boost::asio::io_service;
 	
 public:
-	BoostTcpClient()
-		: m_isInitialized(false)
-		, m_buffer{}
-	{
-	}
+	BoostTcpClient();
 
-	BoostTcpClient(const std::string& host, const std::string& port);
+	virtual ~BoostTcpClient();
 
-	~BoostTcpClient() {}
-
-	bool	Connect();
+	bool	Connect(const std::string& host, const std::string& port) override;
+	bool	IsOpen() const override;
 	
-	void	Close() const;
+	void	Close() override;
 
-			// <<thread>>
-	void	RunService();
-	void	StopService();
-	
-	void	WriteAsync(const char* data, size_t count, const OnActionCallback& callback) const;
-	
-	void	Write(const char* data, size_t count) const;
+	void	RunAsyncHandler() override;
+	void	StopAsyncHandler() override;
 
-	size_t	Read(std::stringstream&);
-	
-	void	AwaitData(const OnActionCallback& callback);
+	void	Write(const char* data, size_t count) override;
+	void	WriteAsync(const char* data, size_t count, const OnActionCallback& callback) override;
+	size_t	WriteSome(const char* data, size_t count) override;
 
-	void	Receive(std::stringstream& stream, size_t count) const;
+	size_t	Read(std::ostream& stream, size_t count) override;
+	size_t	ReadSome(std::ostream&) override;
+	void	ReadSomeAsync(std::ostream& stream, const OnActionCallback& callback) override;
 
-	Socket& GetSocket() const;
+	void	AwaitData(const OnActionCallback& callback) override;
 
-	void	SetInitialized(bool init);
-	bool	IsInitialized() const;
-
-	void	SetEndpoint(const std::string& host, const std::string& port);
+	void	Receive(std::ostream& stream, size_t count) const override;
 	
 private:
-	bool			m_isInitialized;
+	Service			m_service{ };
 
-	std::thread		m_serviceThread;
-	
-	std::string		m_host;
-	std::string		m_port;
-	
-	Service			m_service;
-	SocketPtr		m_socket;
-	
-	enum {bufferSize = 1000};
-	char			m_buffer[bufferSize];
+	BoostTcpSession	m_session;
+	std::unique_ptr<std::thread>	m_serviceThread{ };
 };
-
-using Client = std::unique_ptr<BoostTcpClient>;
 	
 }

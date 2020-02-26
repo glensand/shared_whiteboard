@@ -1,33 +1,35 @@
-﻿#include "SharedWhiteboard.h"
+﻿#include "SharedWhiteboardClient.h"
 
 #include "whiteboard/WhiteBoardCV.h"
 #include "serializer/ShapeSerializer.h"
 
 #include <sstream>
 #include <iostream>
+#include <exception>
 
 namespace wboard
 {
 namespace shared
 {
 //------------------------------------------------------------------------------
-SharedWhiteboard::SharedWhiteboard(WhiteBoard&& wb, const std::string& host, const std::string& port)
+SharedWhiteboardClient::SharedWhiteboardClient(WhiteBoard&& wb, const std::string& host, const std::string& port)
 	: m_whiteBoard(std::move(wb))
-	, m_tcpClient(host, port)
+	, m_host(host)
+	, m_port(port)
 {
 	m_onDrawCallback = [this](const Shape& shape)
 	{
 		Send(shape);
 	};
 
-	m_onReadCallback = [this](const boost::system::error_code&, size_t size)
+	m_onReadCallback = [this](size_t size)
 	{
 		std::cout << "m_onReadCallback count: " << size << std::endl;
 		
 		Receive(size);
 	};
 
-	m_OnSentCallback = [this](const boost::system::error_code&, size_t size)
+	m_OnSentCallback = [this](size_t size)
 	{
 		std::cout << "m_OnSentCallback count: " << size << std::endl;
 		
@@ -35,10 +37,14 @@ SharedWhiteboard::SharedWhiteboard(WhiteBoard&& wb, const std::string& host, con
 	};
 }
 //------------------------------------------------------------------------------
-void SharedWhiteboard::Run()
+void SharedWhiteboardClient::Run()
 {
-	m_tcpClient.Connect();
-	m_tcpClient.RunService();
+	if(!m_tcpClient.Connect(m_host, m_port))
+	{
+		throw std::exception("Cant connect to the given endpoint");
+	}
+	
+	m_tcpClient.RunAsyncHandler();
 	m_tcpClient.AwaitData(m_onReadCallback);
 	
 	m_whiteBoard->RegisterOnDrawCallback(m_onDrawCallback);
@@ -47,7 +53,7 @@ void SharedWhiteboard::Run()
 	m_whiteBoard->Close();
 }
 //------------------------------------------------------------------------------
-void SharedWhiteboard::Send(const Shape& shape)
+void SharedWhiteboardClient::Send(const Shape& shape)
 {
 	std::stringstream stream;
 	
@@ -59,7 +65,7 @@ void SharedWhiteboard::Send(const Shape& shape)
 	std::cout << "m_writeStream size: " << m_writeBuffer.size() << std::endl;
 }
 //------------------------------------------------------------------------------
-void SharedWhiteboard::Receive(size_t count)
+void SharedWhiteboardClient::Receive(size_t count)
 {
 	std::stringstream stream;
 	m_tcpClient.Receive(stream, count);
@@ -75,7 +81,7 @@ void SharedWhiteboard::Receive(size_t count)
 	m_tcpClient.AwaitData(m_onReadCallback);
 }
 //------------------------------------------------------------------------------	
-void SharedWhiteboard::OnSentCallback()
+void SharedWhiteboardClient::OnSentCallback()
 {
 	std::cout << "SharedWhiteboard::OnSentCallback()" << std::endl;
 }

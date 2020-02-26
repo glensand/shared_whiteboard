@@ -3,11 +3,11 @@
 //
 // SharedWhiteboard implements...
 //
-// Copyright (c) 2020 Afti
+// Copyright (c) 2020 glensand
 // All rights reserved.
 //
 // Date: 21.02.2020
-// Author: glensand
+// Author: Bezborodov Gleb
 //------------------------------------------------------------------------------
 #pragma once
 
@@ -19,12 +19,12 @@ namespace wboard
 namespace shared
 {
 	
-class SharedWhiteboard
+class SharedWhiteboardClient
 {
 public:
 
-	SharedWhiteboard(WhiteBoard&& wb, const std::string& host, const std::string& port);
-	virtual ~SharedWhiteboard() = default;
+	SharedWhiteboardClient(WhiteBoard&& wb, const std::string& host, const std::string& port);
+	virtual ~SharedWhiteboardClient() = default;
 
 	void	Run();
 	void	Send(const Shape&);
@@ -35,11 +35,13 @@ public:
 private:
 	std::function<void(const Shape&)>	m_onDrawCallback;
 	WhiteBoard							m_whiteBoard;
-	Net::BoostTcpClient					m_tcpClient;
 
 	Net::OnActionCallback				m_OnSentCallback;
 	Net::OnActionCallback				m_onReadCallback;
 
+	Net::BoostTcpClient					m_tcpClient;
+	std::string		m_port;
+	std::string		m_host;
 	std::string		m_writeBuffer;
 };
 
