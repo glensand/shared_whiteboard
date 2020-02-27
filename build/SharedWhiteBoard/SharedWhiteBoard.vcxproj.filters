@@ -27,6 +27,12 @@
     <ClInclude Include="..\..\src\sharedWhiteboard\SharedWhiteboardClient.h">
       <Filter>wb</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\Request.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\Response.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.cpp">
@@ -40,6 +46,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\sharedWhiteboard\SharedWhiteboardClient.cpp">
       <Filter>wb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sharedWhiteboard\Protocol\Request.cpp">
+      <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sharedWhiteboard\Protocol\Response.cpp">
+      <Filter>Protocol</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

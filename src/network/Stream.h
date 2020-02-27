@@ -25,7 +25,7 @@ public:
 	 * \tparam WT type to which argument will be cast before writing
 	 * \param object data to be written 
 	 */
-	template <typename T, typename WT>
+	template <typename WT, typename T>
 	void WriteAs(const T& object);
 
 	/**
@@ -34,7 +34,7 @@ public:
 	 * \tparam RT type of containing in the stream argument
 	 * \return argument which was read
 	 */
-	template <typename T, typename RT>
+	template <typename RT, typename T>
 	T ReadAs();
 
 	/**
@@ -69,32 +69,32 @@ public:
 	virtual void Read(void* data, size_t count) = 0;
 };
 
-template <typename T, typename WT>
+template <typename WT, typename T>
 void Stream::WriteAs(const T& object)
 {
 	const auto writableObject = static_cast<WT>(object);
-	Write(reinterpret_cast<const void*>(&writableObject), sizeof writableObject);
+	Write(&writableObject, sizeof writableObject);
 }
 
-template <typename T, typename RT>
+template <typename RT, typename T>
 T Stream::ReadAs()
 {
 	RT readObject;
-	Read(reinterpret_cast<void*>(&readObject), sizeof readObject);
+	Read(&readObject, sizeof readObject);
 	return static_cast<T>(readObject);
 }
 
 template <typename T>
 std::enable_if_t<std::is_integral_v<T>, void> Stream::Write(T object)
 {
-	Write(reinterpret_cast<void*>(&object), sizeof object);
+	Write(&object, sizeof object);
 }
 
 template <typename T>
 std::enable_if_t<std::is_integral_v<T>, T> Stream::Read()
 {
 	T res;
-	Read(reinterpret_cast<void*>(&res), sizeof(res));
+	Read(&res, sizeof(res));
 	return res;
 }
 	

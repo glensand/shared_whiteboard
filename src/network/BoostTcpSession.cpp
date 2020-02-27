@@ -1,5 +1,6 @@
 ﻿#include "BoostTcpSession.h"
 #include <iostream>
+#include "Configure.h"
 
 namespace Net
 {
@@ -23,11 +24,13 @@ size_t BoostTcpSession::Write(const char* data, size_t count)
 //------------------------------------------------------------------------------
 void BoostTcpSession::WriteAsync(const char* data, size_t count, const OnActionCallback& callback)
 {
+	if constexpr (DEBUG_PRINT)
+		std::cout << "BoostTcpSession::WriteAsync: " << std::this_thread::get_id() << std::endl;
 	async_write(m_socket, boost::asio::buffer(data, count),
 		[callback](const boost::system::error_code& code, size_t count)
 		{
 			callback(count);
-			std::cout << "BoostTcpSession::WriteAsync: " << code << std::endl;
+			std::cout << "BoostTcpSession::WriteAsync callback: " << std::this_thread::get_id() << std::endl;
 		});
 }
 //------------------------------------------------------------------------------
@@ -45,13 +48,14 @@ size_t BoostTcpSession::Read(std::ostream& stream, size_t count)
 }
 //------------------------------------------------------------------------------
 void BoostTcpSession::AwaitData(const OnActionCallback& callback)
-{
+{	
 	// when this method is used in BoostTcpClient a three-layer lambda is obtained
 	m_socket.async_read_some(boost::asio::buffer(m_buffer),
 		[callback](const boost::system::error_code& code, size_t count)
 		{
 			// TODO:: create more appropriate way to use error code
-			std::cout << "BoostTcpSession::received: " << code << std::endl;
+			if constexpr (DEBUG_PRINT)
+				std::cout << "BoostTcpSession::received: " << code << std::endl;
 			callback(count);
 		});
 }

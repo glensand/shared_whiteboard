@@ -1,4 +1,5 @@
 ﻿#include "BoostTcpClient.h"
+#include "Configure.h"
 
 #include <iostream>
 
@@ -40,7 +41,9 @@ bool BoostTcpClient::Connect(const std::string& host, const std::string& port)
 		
 		boost::asio::connect(m_session.GetSocket(), endpoints);
 
-		std::cout << "Connected" << std::endl;
+		if constexpr(DEBUG_PRINT)
+			std::cout << "Connected" << std::endl;
+
 		return true;
 	}
 	catch (std::exception & e)
@@ -112,6 +115,8 @@ size_t BoostTcpClient::Read(std::ostream& stream, size_t count)
 //------------------------------------------------------------------------------
 void BoostTcpClient::AwaitData(const OnActionCallback& callback)
 {
+	std::cout << "BoostTcpClient::AwaitData: " << std::this_thread::get_id() << std::endl;
+	
 	m_session.AwaitData(callback);
 }
 //------------------------------------------------------------------------------

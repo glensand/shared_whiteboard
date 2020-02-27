@@ -127,6 +127,9 @@ private:
 	std::vector<char>	m_buffer;
 };
 
+/**
+ * \brief recommended boost session alias
+ */
 using Session = std::unique_ptr<BoostTcpSession>;
 
 }

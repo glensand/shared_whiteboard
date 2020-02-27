@@ -60,7 +60,7 @@ void WhiteBoardCv::DrawShape(const Shape& shape)
 	m_render->Render(GetRenderCtx());
 	
 	GetRenderCtx()->Shape = prev;
-
+		
 	SetUpdateFlag(true);
 }
 //------------------------------------------------------------------------------

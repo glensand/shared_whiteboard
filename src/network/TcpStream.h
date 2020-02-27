@@ -10,18 +10,21 @@
 
 #pragma once
 
-#include "BaseStream.h"
+#include "Stream.h"
 #include "IStreamProvider.h"
 
 #include "ITcpClient.h"
+#include <boost/asio.hpp>
 
 namespace Net
 {
 
-class TcpStream final : public BaseStream, public IStreamProvider
+class TcpStream final : public Stream, public IStreamProvider
 {
+	using AsioStream = boost::asio::ip::tcp::iostream;
+	
 public:
-	TcpStream(TcpClient&& client);
+	TcpStream(const std::string& host, const std::string& port);
 	TcpStream(TcpStream&) = delete;
 	TcpStream(TcpStream&&) = delete;
 	TcpStream& operator=(TcpStream&&) = delete;
@@ -29,21 +32,20 @@ public:
 	
 	virtual ~TcpStream() = default;
 
+	// Stream implementation
+	void			Write(const void* data, size_t count) override;
+	
+	void			Read(void* data, size_t count) override;
+	
 	// IStreamProvider implementation
 	void			FlushAsync(const OnActionCallback& onFlushCallback) override;
 	
 	void			Flush() override;
 
-	void			AsyncWaitForData(const OnActionCallback& onReceiveCallback) override;
+	bool			IsOpen() const override;
 	
 private:
-	void			TryConnection();
-	
-	std::string		m_buffer;
-
-	TcpClient		m_tcpClient;
-	std::string		m_host;
-	std::string		m_port;
+	AsioStream		m_tcpStream;
 };
 	
 }

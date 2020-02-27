@@ -39,12 +39,10 @@ public:
 	virtual void Flush() = 0;
 	
 	/**
-	 * \brief asynchronously waits for the arrival of data;
-	 * when receiving the first data, it calls the callback function, into which it transfers the number of bytes received
-	 * it does not block the thread from which it is called
-	 * \param onReceiveCallback	callback function that will be called when the first data is received
+	 * \brief synchronously checks the connection
+	 * \return connection condition
 	 */
-	virtual void AsyncWaitForData(const OnActionCallback& onReceiveCallback) = 0;
+	virtual bool IsOpen() const = 0;
 };
 	
 }

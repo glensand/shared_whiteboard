@@ -13,9 +13,6 @@
     <Filter Include="utils">
       <UniqueIdentifier>{621c1ee9-7879-4083-9279-b73f0c2d96aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="clientserver">
-      <UniqueIdentifier>{0b247e98-8967-496a-94a8-621adeac4709}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\whiteboard\render\RenderBase.cpp">
