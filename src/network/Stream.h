@@ -10,9 +10,13 @@
 #pragma once
 
 #include <type_traits>
+#include <functional>
 
 namespace Net
 {
+
+template <typename T>
+using OnReadCallback = std::function<void(T&& object)>;
 	
 class Stream
 {
@@ -44,7 +48,16 @@ public:
 	 * \return 
 	 */
 	template <typename T>
-	std::enable_if_t<std::is_integral_v<T>, void> Write(T object);
+	void Write(const T& object);
+
+	/**
+	 * \brief 
+	 * \tparam T 
+	 * \param object 
+	 * \param callback 
+	 */
+	template <typename T>
+	void WriteAsync(const T& object, const std::function<void()>& callback);
 
 	/**
 	 * \brief reads argument from stream, argument must be of integral type
@@ -52,7 +65,16 @@ public:
 	 * \return 
 	 */
 	template <typename T>
-	std::enable_if_t<std::is_integral_v<T>, T> Read();
+	T Read();
+
+	/**
+	 * \brief tries to asynchronously read data of the specified type from the stream
+	 * \tparam T data type must be integral,
+	 * or a pointer to a class object, with the DeserializeFrom method implemented
+	 * \param callback 
+	 */
+	template <typename T>
+	void ReadAsync(const OnReadCallback<T>& callback);
 	
 	/**
 	 * \brief writes row data to the stream
@@ -61,12 +83,19 @@ public:
 	 */
 	virtual void Write(const void* data, size_t count) = 0;
 
-	/**
-	 * \brief reads row data from stream
+	/** 
+	 * \brief reads row data from stream 
 	 * \param data 
 	 * \param count 
 	 */
 	virtual void Read(void* data, size_t count) = 0;
+
+protected:
+	/**
+	 * \brief asynchronously starts the passed function
+	 * \param func function to be launched at the end of asynchronous operation
+	 */
+	virtual void LaunchAsync(const std::function<void()>& func) = 0;
 };
 
 template <typename WT, typename T>
@@ -85,17 +114,53 @@ T Stream::ReadAs()
 }
 
 template <typename T>
-std::enable_if_t<std::is_integral_v<T>, void> Stream::Write(T object)
+void Stream::Write(const T& object)
 {
-	Write(&object, sizeof object);
+	if constexpr (std::is_integral_v<T>)
+	{
+		Write(&object, sizeof object);
+	}
+	else
+	{
+		object->SerializeTo(*this);
+	}
 }
 
 template <typename T>
-std::enable_if_t<std::is_integral_v<T>, T> Stream::Read()
+void Stream::WriteAsync(const T& object, const std::function<void()>& callback)
 {
-	T res;
-	Read(&res, sizeof(res));
-	return res;
+	LaunchAsync([this]()
+		{
+			Write(object);
+			callback();
+		});
 }
+
+template <typename T>
+T Stream::Read()
+{
+	T object;
 	
+	if constexpr (std::is_integral_v<T>)
+	{
+		Read(&object, sizeof(object));
+	}
+	else
+	{
+		object->DeserializeFrom(*this);
+	}
+	
+	return object;
 }
+
+template <typename T>
+void Stream::ReadAsync(const OnReadCallback<T>& callback)
+{
+	LaunchAsync([this]()
+		{
+			callback(Read<T>);
+		});
+}
+
+}
+

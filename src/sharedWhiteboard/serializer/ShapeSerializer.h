@@ -12,6 +12,11 @@
 #include <unordered_map>
 #include "ISerializerInner.h"
 
+namespace Net
+{
+class Stream;
+}
+
 namespace wboard
 {
 
@@ -26,8 +31,8 @@ public:
 	
 	~ShapeSerializer() = default;
 
-	void						Serialize(std::stringstream& stream, const Shape& shape) const;
-	Shape						Deserialize(std::stringstream& stream) const;
+	void						Serialize(Net::Stream& stream, const Shape& shape) const;
+	Shape						Deserialize(Net::Stream& stream) const;
 	
 	static ShapeSerializer&		Instance();
 	void						AddSerializer(Serializer&& serializer);

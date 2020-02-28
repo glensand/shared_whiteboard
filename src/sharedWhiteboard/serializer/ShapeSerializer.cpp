@@ -1,16 +1,16 @@
 ﻿#include "ShapeSerializer.h"
 
-#include "SimpleShapeSeializer.h"
+#include "SimpleShapeSerializer.h"
 
 namespace wboard
 {
 //------------------------------------------------------------------------------
-void ShapeSerializer::Serialize(std::stringstream& stream, const Shape& shape) const
+void ShapeSerializer::Serialize(Net::Stream& stream, const Shape& shape) const
 {
 	m_serializerChain->Serialize(stream, shape);
 }
 //------------------------------------------------------------------------------
-Shape ShapeSerializer::Deserialize(std::stringstream& stream) const
+Shape ShapeSerializer::Deserialize(Net::Stream& stream) const
 {
 	return m_serializerChain->Deserialize(stream);
 }
@@ -30,7 +30,7 @@ void ShapeSerializer::AddSerializer(Serializer&& serializer)
 //------------------------------------------------------------------------------
 ShapeSerializer::ShapeSerializer()
 {
-	AddSerializer(std::unique_ptr<ISerializerInner>(std::make_unique<SimpleShapeSeializer>()));
+	AddSerializer(std::unique_ptr<ISerializerInner>(std::make_unique<SimpleShapeSerializer>()));
 }
 //------------------------------------------------------------------------------
 }

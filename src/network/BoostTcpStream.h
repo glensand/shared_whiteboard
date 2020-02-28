@@ -19,30 +19,33 @@
 namespace Net
 {
 
-class TcpStream final : public Stream, public IStreamProvider
+class BoostTcpStream final : public Stream, public IStreamProvider
 {
 	using AsioStream = boost::asio::ip::tcp::iostream;
 	
 public:
-	TcpStream(const std::string& host, const std::string& port);
-	TcpStream(TcpStream&) = delete;
-	TcpStream(TcpStream&&) = delete;
-	TcpStream& operator=(TcpStream&&) = delete;
-	TcpStream& operator=(TcpStream&) = delete;
+	BoostTcpStream(const std::string& host, const std::string& port);
+	BoostTcpStream(BoostTcpStream&) = delete;
+	BoostTcpStream(BoostTcpStream&&) = delete;
+	BoostTcpStream& operator=(BoostTcpStream&&) = delete;
+	BoostTcpStream& operator=(BoostTcpStream&) = delete;
 	
-	virtual ~TcpStream() = default;
+	virtual ~BoostTcpStream() = default;
 
 	// Stream implementation
 	void			Write(const void* data, size_t count) override;
 	
 	void			Read(void* data, size_t count) override;
-	
+
 	// IStreamProvider implementation
 	void			FlushAsync(const OnActionCallback& onFlushCallback) override;
 	
 	void			Flush() override;
 
 	bool			IsOpen() const override;
+
+protected:
+	void			LaunchAsync(const std::function<void()>& func) override;
 	
 private:
 	AsioStream		m_tcpStream;

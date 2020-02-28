@@ -18,9 +18,6 @@
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.h">
       <Filter>Serializer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSeializer.h">
-      <Filter>Serializer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializerBase.h">
       <Filter>Serializer</Filter>
     </ClInclude>
@@ -33,12 +30,21 @@
     <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\Response.h">
       <Filter>Protocol</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\IArgument.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\IArgumentContainer.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\ArgumentShape.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSerializer.h">
+      <Filter>Serializer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.cpp">
-      <Filter>Serializer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSeializer.cpp">
       <Filter>Serializer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializerBase.cpp">
@@ -52,6 +58,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\sharedWhiteboard\Protocol\Response.cpp">
       <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sharedWhiteboard\Protocol\ArgumentShape.cpp">
+      <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSerializer.cpp">
+      <Filter>Serializer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

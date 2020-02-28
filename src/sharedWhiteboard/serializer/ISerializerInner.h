@@ -13,6 +13,11 @@
 
 #include <whiteboard/render/ShapeData.h>
 
+namespace Net
+{
+class Stream;
+}
+
 namespace wboard
 {
 
@@ -27,13 +32,13 @@ public:
 	ISerializerInner() = default;
 	virtual ~ISerializerInner() = default;
 
-	virtual void				Serialize(std::stringstream& stream, const Shape& shape) const = 0;
-	virtual Shape				Deserialize(std::stringstream& stream) const = 0;
+	virtual void				Serialize(Net::Stream& stream, const Shape& shape) const = 0;
+	virtual Shape				Deserialize(Net::Stream& stream) const = 0;
 	
 	virtual void				AddNext(Serializer&& ser) = 0;
 	virtual const Serializer&	GetNext() const = 0;
 
-	virtual Shape				Deserialize(std::stringstream& stream, ShapeType type) const = 0;
+	virtual Shape				Deserialize(Net::Stream& stream, ShapeType type) const = 0;
 };
 	
 }

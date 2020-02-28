@@ -21,9 +21,6 @@
     <ClInclude Include="..\..\src\network\Stream.h">
       <Filter>net</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\network\TcpStream.h">
-      <Filter>net</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\network\BaseStream.h">
       <Filter>net</Filter>
     </ClInclude>
@@ -31,6 +28,9 @@
       <Filter>net</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\network\ITcpServer.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\BoostTcpStream.h">
       <Filter>net</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,10 +44,10 @@
     <ClCompile Include="..\..\src\network\BoostTcpServer.cpp">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\network\TcpStream.cpp">
+    <ClCompile Include="..\..\src\network\BaseStream.cpp">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\network\BaseStream.cpp">
+    <ClCompile Include="..\..\src\network\BoostTcpStream.cpp">
       <Filter>net</Filter>
     </ClCompile>
   </ItemGroup>

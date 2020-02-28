@@ -1,14 +1,13 @@
-﻿#include "SimpleShapeSeializer.h"
+﻿#include "SimpleShapeSerializer.h"
 
-#include <ostream>
-#include <sstream>
+#include "network/Stream.h"
 #include <iostream>
 
 namespace wboard
 {
 //REGISTER_SERIALIZER(SimpleShapeSeializer);
 //------------------------------------------------------------------------------
-bool SimpleShapeSeializer::CanBeProcessed(ShapeType type) const
+bool SimpleShapeSerializer::CanBeProcessed(ShapeType type) const
 {
 	return type == ShapeType::Circle
 		|| type == ShapeType::Rect
@@ -16,19 +15,19 @@ bool SimpleShapeSeializer::CanBeProcessed(ShapeType type) const
 		|| type == ShapeType::Curve;
 }
 //------------------------------------------------------------------------------
-void SimpleShapeSeializer::SerializeImpl(std::stringstream& stream, const Shape& shape) const
+void SimpleShapeSerializer::SerializeImpl(Net::Stream& stream, const Shape& shape) const
 {
 	// TODO:: real serialization
-	stream.write(reinterpret_cast<const char*>(shape.get()), sizeof(*shape));
+	stream.Write(shape.get(), sizeof(*shape));
 }
 //------------------------------------------------------------------------------
-Shape SimpleShapeSeializer::DeserializeImpl(std::stringstream& stream) const
+Shape SimpleShapeSerializer::DeserializeImpl(Net::Stream& stream) const
 {
 	// TODO:: real serialization
 	auto shape = std::make_shared<SimpleShape>();
 
 	std::cout << sizeof * shape << std::endl;
-	stream.read(reinterpret_cast<char*>(shape.get()), sizeof(*shape));
+	stream.Read(reinterpret_cast<char*>(shape.get()), sizeof(*shape));
 	return shape;
 }
 //------------------------------------------------------------------------------	

@@ -38,7 +38,7 @@
 
 #include <iostream>
 
-#include <sharedWhiteboard/serializer/SimpleShapeSeializer.h>
+#include <sharedWhiteboard/serializer/SimpleShapeSerializer.h>
 
 #include <sstream>
 

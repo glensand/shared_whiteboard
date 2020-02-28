@@ -1,36 +1,48 @@
-﻿#include "TcpStream.h"
+﻿#include "BoostTcpStream.h"
+
+#include <thread>
 
 namespace Net
 {
 //------------------------------------------------------------------------------
-TcpStream::TcpStream(const std::string& host, const std::string& port)
+BoostTcpStream::BoostTcpStream(const std::string& host, const std::string& port)
 		: m_tcpStream(host, port)
 {
 }
 //------------------------------------------------------------------------------
-void TcpStream::Write(const void* data, size_t count)
+void BoostTcpStream::Write(const void* data, size_t count)
 {
 	m_tcpStream.write(reinterpret_cast<const char*>(data), count);
 }
 //------------------------------------------------------------------------------
-void TcpStream::Read(void* data, size_t count)
+void BoostTcpStream::Read(void* data, size_t count)
 {
 	m_tcpStream.read(reinterpret_cast<char*>(data), count);
 }
 //------------------------------------------------------------------------------
-void TcpStream::FlushAsync(const OnActionCallback& onFlushCallback)
+void BoostTcpStream::FlushAsync(const OnActionCallback& onFlushCallback)
 {
+	LaunchAsync([this, onFlushCallback]()
+		{
+			m_tcpStream.flush();
+			onFlushCallback(0);
+		});
 	// TODO:: needs implementation
 }
 //------------------------------------------------------------------------------
-void TcpStream::Flush()
+void BoostTcpStream::Flush()
 {
 	m_tcpStream.flush();
 }
 //------------------------------------------------------------------------------
-bool TcpStream::IsOpen() const
+bool BoostTcpStream::IsOpen() const
 {
 	return m_tcpStream.good();
+}
+//------------------------------------------------------------------------------	
+void BoostTcpStream::LaunchAsync(const std::function<void()>& func)
+{
+	auto future = std::async(std::launch::async, func);
 }
 //------------------------------------------------------------------------------	
 }

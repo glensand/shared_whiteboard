@@ -27,14 +27,14 @@
     <ClInclude Include="..\..\src\network\ITcpServer.h" />
     <ClInclude Include="..\..\src\network\Stream.h" />
     <ClInclude Include="..\..\src\network\IStreamProvider.h" />
-    <ClInclude Include="..\..\src\network\TcpStream.h" />
+    <ClInclude Include="..\..\src\network\BoostTcpStream.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\network\BaseStream.cpp" />
     <ClCompile Include="..\..\src\network\BoostTcpClient.cpp" />
     <ClCompile Include="..\..\src\network\BoostTcpServer.cpp" />
     <ClCompile Include="..\..\src\network\BoostTcpSession.cpp" />
-    <ClCompile Include="..\..\src\network\TcpStream.cpp" />
+    <ClCompile Include="..\..\src\network\BoostTcpStream.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

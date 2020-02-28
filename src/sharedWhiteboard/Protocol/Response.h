@@ -11,6 +11,11 @@
 //------------------------------------------------------------------------------
 #pragma once
 
+namespace Net
+{
+class Stream;
+}
+
 namespace wboard
 {
 namespace shared
@@ -22,6 +27,9 @@ public:
 
 	virtual ~Response() = default;
 
+	void	SerializeTo(Net::Stream& stream);
+
+	void	DeserializeFrom(Net::Stream& stream);
 };
 
 }
