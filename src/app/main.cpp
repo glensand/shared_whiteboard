@@ -1,6 +1,7 @@
 #include "sharedWhiteboard/SharedWhiteboardClient.h"
 #include "whiteboard/WhiteBoardCV.h"
-#include "network/BoostTcpServer.h"
+#include "sharedWhiteboard/WhiteboardServer.h"
+#include "network/BoostTcpStream.h"
 
 #include <iostream>
 
@@ -23,7 +24,7 @@ int main(int argc, char* argv[])
 
 		std::cout << "Server" << std::endl;
 		
-		Net::BoostTcpServer server(1111);
+		Net::WhiteboardServer server(1111);
 		server.Run();
 
 		std::cout << "Server finished" << std::endl;
@@ -34,7 +35,9 @@ int main(int argc, char* argv[])
 
 		std::cout << "Client" << std::endl;
 		
-		wboard::shared::SharedWhiteboardClient board(wboard::WhiteBoard(new wboard::WhiteBoardCv()), argv[2], "1111");
+		wboard::SharedWhiteboardClient board(std::make_unique<wboard::WhiteBoardCv>(), 
+			Net::StreamPtr(new Net::BoostTcpStream(argv[2], "1111")));
+		
 		board.Run();
 
 		std::cout << "Client finished" << std::endl;

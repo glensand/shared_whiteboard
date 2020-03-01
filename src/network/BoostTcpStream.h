@@ -11,15 +11,13 @@
 #pragma once
 
 #include "Stream.h"
-#include "IStreamProvider.h"
 
-#include "ITcpClient.h"
 #include <boost/asio.hpp>
 
 namespace Net
 {
 
-class BoostTcpStream final : public Stream, public IStreamProvider
+class BoostTcpStream final : public Stream
 {
 	using AsioStream = boost::asio::ip::tcp::iostream;
 	
@@ -37,7 +35,6 @@ public:
 	
 	void			Read(void* data, size_t count) override;
 
-	// IStreamProvider implementation
 	void			FlushAsync(const OnActionCallback& onFlushCallback) override;
 	
 	void			Flush() override;

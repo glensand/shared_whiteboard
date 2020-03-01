@@ -3,46 +3,49 @@
 //
 // BoostTcpServer implements...
 //
-// Copyright (c) 2020 glensand
+// Copyright (c) 2020 Afti
 // All rights reserved.
 //
-// Date: 22.02.2020
-// Author: Bezborodov Gleb
+// Date: 29.02.2020
+// Author: glensand
 //------------------------------------------------------------------------------
 #pragma once
 
-#include <boost/asio.hpp>
-
+#include "network/ITcpServer.h"
 #include "BoostTcpSession.h"
-
-// TODO:: refactor server, interface and more abstract entities should be added
+#include <unordered_map>
 
 namespace Net
 {
 	
-class BoostTcpServer final
+class BoostTcpServer : public ITcpServer
 {
 public:
-	BoostTcpServer(size_t port);
-	~BoostTcpServer() = default;
 
-	void	Run();
-	
+	explicit BoostTcpServer(const std::string& port);
+	virtual ~BoostTcpServer() = default;
+
+	void	AwaitConnections(const ServerOnActionCallback& connectionHandler) override;
+
+	void	AwaitData(int clientId, const OnActionCallback& dataReceiveHandler) override;
+
+	void	Receive(std::ostream& stream, size_t count, int clientId) override;
+
+	void	Send(const void* data, size_t size, int clientId) override;
+
+	void	SendAsync(const void* data, size_t size, int clientId, const OnActionCallback& callback) override;
+
+	void	Send(const void* data, size_t size) override;
+
+	void	SendAsync(const void* data, size_t size, const OnActionCallback& callback) override;
+
 private:
-	void	OnWrite();
+	const Session&	FindSession(size_t id) const;
 
-	void	Accept();
-
-	void	Receive(BoostTcpSession* client, size_t);
-
-	std::vector<Session>			m_sessions;
-	boost::asio::io_service			m_service;
-	boost::asio::ip::tcp::acceptor	m_acceptor;
-
-	OnActionCallback				m_OnWriteCallback;
-	std::string						m_bufStream;
-
-	std::mutex m_receiveLock;
+	size_t	m_sessionCounter{ 0 };
+	std::unordered_map<int, Session>	m_sessions;
+	boost::asio::io_service				m_service;
+	boost::asio::ip::tcp::acceptor		m_acceptor;
 };
 	
 }

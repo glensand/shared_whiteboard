@@ -1,28 +1,24 @@
 ﻿//------------------------------------------------------------------------------
-// IArgumentContainer.h
+// EArgumentType.h
+//
+// EArgumentType implements...
 //
 // Copyright (c) 2020 Afti
 // All rights reserved.
 //
-// Date: 27.02.2020
+// Date: 29.02.2020
 // Author: glensand
 //------------------------------------------------------------------------------
-#pragma once
 
-namespace Net
-{
-class Stream;
-}
+#pragma once
 
 namespace wboard
 {
 
-class ArgumentContainer
+enum class EArgumentType
 {
-
-public:
-	virtual void Seriali
-	
+	Shape,
+	User
 };
 
 }

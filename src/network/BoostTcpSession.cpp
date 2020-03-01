@@ -12,17 +12,17 @@ BoostTcpSession::BoostTcpSession(Service& service)
 	m_buffer.resize(1000);
 }
 //------------------------------------------------------------------------------
-size_t BoostTcpSession::WriteSome(const char* data, size_t count)
+size_t BoostTcpSession::WriteSome(const void* data, size_t count)
 {
 	return m_socket.write_some(boost::asio::buffer(data, count));
 }
 //------------------------------------------------------------------------------
-size_t BoostTcpSession::Write(const char* data, size_t count)
+size_t BoostTcpSession::Write(const void* data, size_t count)
 {
 	return write(m_socket, boost::asio::buffer(data, count));
 }
 //------------------------------------------------------------------------------
-void BoostTcpSession::WriteAsync(const char* data, size_t count, const OnActionCallback& callback)
+void BoostTcpSession::WriteAsync(const void* data, size_t count, const OnActionCallback& callback)
 {
 	if constexpr (DEBUG_PRINT)
 		std::cout << "BoostTcpSession::WriteAsync: " << std::this_thread::get_id() << std::endl;

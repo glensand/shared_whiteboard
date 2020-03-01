@@ -128,6 +128,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\local\boost_1_72_0;$(SolutionDir)/src;$(OPENCV_DIR)/include;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,9 +165,12 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\ArgumentBase.h" />
+    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\ArgumentContainer.h" />
+    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\ArgumentFactory.h" />
     <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\ArgumentShape.h" />
+    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\EArgumentType.h" />
     <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\IArgument.h" />
-    <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\IArgumentContainer.h" />
     <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\Request.h" />
     <ClInclude Include="..\..\src\sharedWhiteboard\Protocol\Response.h" />
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ISerializerInner.h" />
@@ -174,8 +178,11 @@
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.h" />
     <ClInclude Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSerializer.h" />
     <ClInclude Include="..\..\src\sharedWhiteboard\SharedWhiteboardClient.h" />
+    <ClInclude Include="..\..\src\sharedWhiteboard\WhiteboardServer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\sharedWhiteboard\Protocol\ArgumentContainer.cpp" />
+    <ClCompile Include="..\..\src\sharedWhiteboard\Protocol\ArgumentFactory.cpp" />
     <ClCompile Include="..\..\src\sharedWhiteboard\Protocol\ArgumentShape.cpp" />
     <ClCompile Include="..\..\src\sharedWhiteboard\Protocol\Request.cpp" />
     <ClCompile Include="..\..\src\sharedWhiteboard\Protocol\Response.cpp" />
@@ -183,6 +190,7 @@
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\ShapeSerializer.cpp" />
     <ClCompile Include="..\..\src\sharedWhiteboard\serializer\SimpleShapeSerializer.cpp" />
     <ClCompile Include="..\..\src\sharedWhiteboard\SharedWhiteboardClient.cpp" />
+    <ClCompile Include="..\..\src\sharedWhiteboard\WhiteboardServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,5 @@
 ﻿#include "BoostTcpStream.h"
 
-#include <thread>
-
 namespace Net
 {
 //------------------------------------------------------------------------------
@@ -27,7 +25,6 @@ void BoostTcpStream::FlushAsync(const OnActionCallback& onFlushCallback)
 			m_tcpStream.flush();
 			onFlushCallback(0);
 		});
-	// TODO:: needs implementation
 }
 //------------------------------------------------------------------------------
 void BoostTcpStream::Flush()

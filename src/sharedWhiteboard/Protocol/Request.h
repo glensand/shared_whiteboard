@@ -19,9 +19,6 @@ class Stream;
 namespace wboard
 {
 
-namespace shared
-{
-
 class Request
 {
 public:
@@ -32,7 +29,5 @@ public:
 	
 	void	DeserializeFrom(Net::Stream& stream);
 };
-
-}
 
 }

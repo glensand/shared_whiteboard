@@ -25,24 +25,7 @@ class IStreamProvider
 public:
 	virtual ~IStreamProvider() = default;
 
-	/**
-	 * \brief It tries to asynchronously write to the stream the information accumulated in the stream buffer,
-	 * it does not block the thread from which it is called, at the end of the operation, it calls the callback function
-	 * \param onFlushCallback callback function, will be called at the end of the operation
-	 */
-	virtual void FlushAsync(const OnActionCallback& onFlushCallback) = 0;
 
-	/**
-	 * \brief tries to synchronously write to the stream the information accumulated in the stream buffer,
-	 * blocks the thread from which it is called
-	 */
-	virtual void Flush() = 0;
-	
-	/**
-	 * \brief synchronously checks the connection
-	 * \return connection condition
-	 */
-	virtual bool IsOpen() const = 0;
 };
 	
 }

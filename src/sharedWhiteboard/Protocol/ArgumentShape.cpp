@@ -5,21 +5,16 @@
 namespace wboard
 {
 //------------------------------------------------------------------------------
-ArgumentShape::ArgumentShape(Shape&& shape)
-	: m_shape(std::move(shape))
-{
-}
-//------------------------------------------------------------------------------
-void ArgumentShape::SerializeTo(Net::Stream& stream) const
+void InnerShape::SerializeTo(Net::Stream& stream) const
 {
 	// Это два вонючих костыля
-	// надо бы убрать и сделать нормально
-	ShapeSerializer::Instance().Serialize(stream, shape);
+// надо бы убрать и сделать нормально
+	ShapeSerializer::Instance().Serialize(stream, Shape);
 }
 //------------------------------------------------------------------------------
-void ArgumentShape::DeserializeFrom(Net::Stream& stream)
+void InnerShape::DeserializeFrom(Net::Stream& stream)
 {
-	m_shape = ShapeSerializer::Instance().Deserialize(stream);
+	Shape = ShapeSerializer::Instance().Deserialize(stream);
 }
 //------------------------------------------------------------------------------
 }

@@ -49,7 +49,7 @@ public:
 			 * \param count - number of bytes to be send
 			 * \return 
 			 */
-	size_t	WriteSome(const char* data, size_t count);
+	size_t	WriteSome(const void* data, size_t count);
 	
 			/**
 			 * \brief delegate to the asio::write
@@ -57,7 +57,7 @@ public:
 			 * \param count 
 			 * \return 
 			 */
-	size_t	Write(const char* data, size_t count);
+	size_t	Write(const void* data, size_t count);
 
 	
 			/**
@@ -66,7 +66,7 @@ public:
 			 * \param count 
 			 * \param errorCallback 
 			 */
-	void	WriteAsync(const char* data, size_t count, const OnActionCallback& errorCallback);
+	void	WriteAsync(const void* data, size_t count, const OnActionCallback& errorCallback);
 
 			/** 
 			 * \brief delegate to the asio::async_write

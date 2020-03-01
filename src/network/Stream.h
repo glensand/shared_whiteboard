@@ -10,6 +10,7 @@
 #pragma once
 
 #include <type_traits>
+#include <memory>
 #include <functional>
 
 namespace Net
@@ -17,11 +18,31 @@ namespace Net
 
 template <typename T>
 using OnReadCallback = std::function<void(T&& object)>;
+using OnActionCallback = std::function<void(size_t availableBytes)>;
 	
 class Stream
 {
 public:
 	virtual ~Stream() = default;
+
+	/**
+	* \brief It tries to asynchronously write to the stream the information accumulated in the stream buffer,
+	* it does not block the thread from which it is called, at the end of the operation, it calls the callback function
+	* \param onFlushCallback callback function, will be called at the end of the operation
+	*/
+	virtual void FlushAsync(const OnActionCallback& onFlushCallback) = 0;
+
+	/**
+	 * \brief tries to synchronously write to the stream the information accumulated in the stream buffer,
+	 * blocks the thread from which it is called
+	 */
+	virtual void Flush() = 0;
+
+	/**
+	 * \brief synchronously checks the connection
+	 * \return connection condition
+	 */
+	virtual bool IsOpen() const = 0;
 	
 	/**
 	 * \brief casts object to WT, and writes it to the stream as WT argument
@@ -122,14 +143,14 @@ void Stream::Write(const T& object)
 	}
 	else
 	{
-		object->SerializeTo(*this);
+		object.SerializeTo(*this);
 	}
 }
 
 template <typename T>
 void Stream::WriteAsync(const T& object, const std::function<void()>& callback)
 {
-	LaunchAsync([this]()
+	LaunchAsync([=]()
 		{
 			Write(object);
 			callback();
@@ -147,7 +168,7 @@ T Stream::Read()
 	}
 	else
 	{
-		object->DeserializeFrom(*this);
+		object.DeserializeFrom(*this);
 	}
 	
 	return object;
@@ -162,5 +183,7 @@ void Stream::ReadAsync(const OnReadCallback<T>& callback)
 		});
 }
 
+using StreamPtr = std::unique_ptr<Stream>;
+	
 }
 

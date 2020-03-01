@@ -12,26 +12,45 @@
 //------------------------------------------------------------------------------
 #pragma once
 
-#include "IArgument.h"
+#include "ArgumentBase.h"
+#include "sharedWhiteboard/Protocol/EArgumentType.h"
 #include "whiteboard/render/ShapeData.h"
 
 namespace wboard
 {
-	
-class ArgumentShape : public IArgument
+
+// Еще один временный вонючий костыль
+class InnerShape
 {
 public:
 
-	ArgumentShape(Shape&& shape);
+	explicit InnerShape(const Shape& simpleShape)
+		: Shape(simpleShape)
+	{
+	}
+
+	InnerShape() = default;
 	
+	void	SerializeTo(Net::Stream& stream) const;
+	
+	void	DeserializeFrom(Net::Stream& stream);
+
+	Shape Shape;
+};
+	
+class ArgumentShape : public ArgumentBase<InnerShape>
+{
+public:
+
+	ArgumentShape(const Shape& value, const std::string& name)
+		: ArgumentBase<InnerShape>(EArgumentType::Shape, name, InnerShape(value))
+	{
+	}
+
+	ArgumentShape()
+		:ArgumentBase<InnerShape>(EArgumentType::Shape){}
+
 	virtual ~ArgumentShape() = default;
-
-	void	SerializeTo(Net::Stream& stream) const override;
-	
-	void	DeserializeFrom(Net::Stream& stream) override;
-
-private:
-	Shape	m_shape;
 };
 	
 }

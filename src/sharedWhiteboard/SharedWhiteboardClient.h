@@ -12,38 +12,30 @@
 #pragma once
 
 #include "whiteboard/Whiteboard.h"
-#include "network/BoostTcpClient.h"
+#include "network/Stream.h"
+#include <thread>
 
 namespace wboard
 {
-namespace shared
-{
-	
+
 class SharedWhiteboardClient
 {
 public:
 
-	SharedWhiteboardClient(WhiteBoard&& wb, const std::string& host, const std::string& port);
+	SharedWhiteboardClient(WhiteBoard&& wb, Net::StreamPtr&& stream);
 	virtual ~SharedWhiteboardClient() = default;
 
 	void	Run();
-	void	Send(const Shape&);
-	
-	void	Receive(size_t count);
-	void	OnSentCallback();
 	
 private:
+	void	Send(const Shape&);
+	void	RunStreamListening();
+
+	std::thread							m_listenerThread;
 	std::function<void(const Shape&)>	m_onDrawCallback;
 	WhiteBoard							m_whiteBoard;
 
-	Net::OnActionCallback				m_OnSentCallback;
-	Net::OnActionCallback				m_onReadCallback;
-
-	Net::BoostTcpClient					m_tcpClient;
-	std::string		m_port;
-	std::string		m_host;
-	std::string		m_writeBuffer;
+	Net::StreamPtr						m_stream;
 };
 
-}
 }

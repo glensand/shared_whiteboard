@@ -12,9 +12,6 @@
     <ClInclude Include="..\..\src\network\BoostTcpSession.h">
       <Filter>net</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\network\BoostTcpServer.h">
-      <Filter>net</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\network\ITcpClient.h">
       <Filter>net</Filter>
     </ClInclude>
@@ -24,13 +21,13 @@
     <ClInclude Include="..\..\src\network\BaseStream.h">
       <Filter>net</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\network\IStreamProvider.h">
-      <Filter>net</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\network\ITcpServer.h">
       <Filter>net</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\network\BoostTcpStream.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\network\BoostTcpServer.h">
       <Filter>net</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,13 +38,13 @@
     <ClCompile Include="..\..\src\network\BoostTcpSession.cpp">
       <Filter>net</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\network\BoostTcpServer.cpp">
-      <Filter>net</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\network\BaseStream.cpp">
       <Filter>net</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\network\BoostTcpStream.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\network\BoostTcpServer.cpp">
       <Filter>net</Filter>
     </ClCompile>
   </ItemGroup>

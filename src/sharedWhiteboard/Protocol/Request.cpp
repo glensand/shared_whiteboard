@@ -3,9 +3,5 @@
 namespace wboard
 {
 
-namespace shared
-{
-	
-}
 
 }
