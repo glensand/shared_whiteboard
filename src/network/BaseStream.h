@@ -31,8 +31,8 @@ public:
 	void	Read(void* data, size_t count) override;
 
 protected:
-	std::string			GetString() const;
-	std::stringstream	m_stream;
+    [[nodiscard]] std::string	GetString() const;
+	std::stringstream			m_stream;
 };
 
 }

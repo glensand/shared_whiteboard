@@ -42,7 +42,12 @@ public:
 	 * \brief synchronously checks the connection
 	 * \return connection condition
 	 */
-	virtual bool IsOpen() const = 0;
+    [[nodiscard]] virtual bool IsOpen() const = 0;
+
+    /**
+	 * \brief Closing the connection, whole data from queue will be removed completely
+	 */
+	virtual void Close() = 0;
 	
 	/**
 	 * \brief casts object to WT, and writes it to the stream as WT argument

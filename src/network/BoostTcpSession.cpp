@@ -56,7 +56,12 @@ void BoostTcpSession::AwaitData(const OnActionCallback& callback)
 			// TODO:: create more appropriate way to use error code
 			if constexpr (DEBUG_PRINT)
 				std::cout << "BoostTcpSession::received: " << code << std::endl;
-			callback(count);
+
+			// TODO:: be more careful
+		    if (boost::asio::error::eof != code && boost::asio::error::connection_reset != code)
+				callback(count);
+			else
+				std::cout << "disconnected" << std::endl;
 		});
 }
 //------------------------------------------------------------------------------

@@ -23,7 +23,7 @@ class SharedWhiteboardClient
 public:
 
 	SharedWhiteboardClient(WhiteBoard&& wb, Net::StreamPtr&& stream);
-	virtual ~SharedWhiteboardClient() = default;
+	virtual ~SharedWhiteboardClient();
 
 	void	Run();
 	

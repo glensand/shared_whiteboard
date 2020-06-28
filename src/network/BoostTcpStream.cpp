@@ -37,6 +37,11 @@ bool BoostTcpStream::IsOpen() const
 	return m_tcpStream.good();
 }
 //------------------------------------------------------------------------------	
+void BoostTcpStream::Close()
+{
+	m_tcpStream.close();
+}
+//------------------------------------------------------------------------------	
 void BoostTcpStream::LaunchAsync(const std::function<void()>& func)
 {
 	auto future = std::async(std::launch::async, func);

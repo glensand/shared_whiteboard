@@ -20,7 +20,7 @@ namespace Net
 {
 	class BoostTcpSession;
 
-	class WhiteboardServer final
+class WhiteboardServer final
 {
 public:
 	WhiteboardServer(size_t port);

@@ -41,6 +41,7 @@ public:
 
 	bool			IsOpen() const override;
 
+	void			Close() override;
 protected:
 	void			LaunchAsync(const std::function<void()>& func) override;
 	

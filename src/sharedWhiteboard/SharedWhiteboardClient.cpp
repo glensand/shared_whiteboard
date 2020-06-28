@@ -7,7 +7,6 @@
 
 #include <sstream>
 #include <iostream>
-#include <exception>
 
 namespace wboard
 {
@@ -20,6 +19,11 @@ SharedWhiteboardClient::SharedWhiteboardClient(WhiteBoard&& wb, Net::StreamPtr&&
 	{
 		Send(shape);
 	};
+}
+//------------------------------------------------------------------------------
+SharedWhiteboardClient::~SharedWhiteboardClient()
+{
+	m_stream->Close();
 }
 //------------------------------------------------------------------------------
 void SharedWhiteboardClient::Run()
